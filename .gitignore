@@ -1,0 +1,33 @@
+# Python
+venv/
+.venv/
+env/
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+
+# Environment
+.env
+*.env.local
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Temp / debug artifacts
+temp_git_*
+patch_script.ps1
+script_diff.txt
+
+# SSL certs (keep ca.pem.txt tracked for Aiven)
+# ca.pem.txt

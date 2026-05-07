@@ -5,7 +5,7 @@
 
 document.addEventListener("DOMContentLoaded", function () {
 
-    // ───────── Three.js Scene Setup ─────────
+    // ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ Three.js Scene Setup ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
 
     var container = document.getElementById('canvas-container');
     if (!container) return; // Guard: if landing layer missing, skip
@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", function () {
     renderer.setClearColor(0x000000, 1);
     container.appendChild(renderer.domElement);
 
-    // ───────── Milky Way Skybox ─────────
+    // ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ Milky Way Skybox ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
 
     (function createSkybox() {
         var skyGeom = new THREE.SphereGeometry(900, 32, 32);
@@ -62,12 +62,12 @@ document.addEventListener("DOMContentLoaded", function () {
             },
             undefined,
             function () {
-                console.warn('Milky Way texture failed — starfield only.');
+                console.warn('Milky Way texture failed ΓÇö starfield only.');
             }
         );
     })();
 
-    // ───────── Layered Starfield ─────────
+    // ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ Layered Starfield ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
 
     // Layer 1: small, dim, distant stars
     (function (count, minSize, maxSize, opacity, radiusMin, radiusMax) {
@@ -150,7 +150,7 @@ document.addEventListener("DOMContentLoaded", function () {
         scene.add(new THREE.Points(geom, mat));
     })(600, 1.2, 2.2, 0.7, 250, 700);
 
-    // ───────── Lighting ─────────
+    // ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ Lighting ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
 
     var ambientLight = new THREE.AmbientLight(0x222233, 0.12);
     scene.add(ambientLight);
@@ -159,7 +159,7 @@ document.addEventListener("DOMContentLoaded", function () {
     sunLight.position.set(5, 2, 4);
     scene.add(sunLight);
 
-    // ───────── Earth Sphere ─────────
+    // ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ Earth Sphere ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
 
     var earthRadius = 1.6;
     var geometry = new THREE.SphereGeometry(earthRadius, 64, 64);
@@ -189,14 +189,14 @@ document.addEventListener("DOMContentLoaded", function () {
         },
         undefined,
         function () {
-            console.warn('Earth texture failed to load — using procedural material.');
+            console.warn('Earth texture failed to load ΓÇö using procedural material.');
         }
     );
 
-    // ───────── Rotation State ─────────
+    // ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ Rotation State ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
     var rotationState = { speed: 0.0015 };
 
-    // ───────── Responsive Resize ─────────
+    // ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ Responsive Resize ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
 
     function onResize() {
         camera.aspect = window.innerWidth / window.innerHeight;
@@ -205,7 +205,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     window.addEventListener('resize', onResize);
 
-    // ───────── Render Loop ─────────
+    // ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ Render Loop ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
 
     var landingActive = true;
 
@@ -217,14 +217,14 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     animate();
 
-    // ───────── GSAP ScrollTrigger Timeline ─────────
+    // ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ GSAP ScrollTrigger Timeline ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
 
     gsap.registerPlugin(ScrollTrigger);
 
     var cards = document.querySelectorAll('#overlay .info-card');
     var ctaButtons = document.getElementById('cta-buttons');
 
-    // Master timeline — scrub: true for direct 1:1 scroll tracking
+    // Master timeline ΓÇö scrub: true for direct 1:1 scroll tracking
     var tl = gsap.timeline({
         scrollTrigger: {
             trigger: '#scroll-container',
@@ -234,7 +234,7 @@ document.addEventListener("DOMContentLoaded", function () {
         },
     });
 
-    // ═══ EARTH ANIMATION — 0% to 50% ═══
+    // ΓòÉΓòÉΓòÉ EARTH ANIMATION ΓÇö 0% to 50% ΓòÉΓòÉΓòÉ
 
     tl.to(earth.position, { y: -1.4, duration: 0.25, ease: 'none' }, 0);
     tl.to(earth.scale, { x: 0.6, y: 0.6, z: 0.6, duration: 0.175, ease: 'none' }, 0);
@@ -245,7 +245,7 @@ document.addEventListener("DOMContentLoaded", function () {
     tl.to(earth.position, { y: -3.4, duration: 0.125, ease: 'none' }, 0.375);
     tl.to(rotationState, { speed: 0, duration: 0.125, ease: 'none' }, 0.375);
 
-    // ═══ TITLE TEXT ═══
+    // ΓòÉΓòÉΓòÉ TITLE TEXT ΓòÉΓòÉΓòÉ
 
     var titleEl = document.getElementById('title-text');
 
@@ -277,7 +277,7 @@ document.addEventListener("DOMContentLoaded", function () {
         onComplete: function () { titleEl.style.zIndex = '1'; },
     }, 0.42);
 
-    // ═══ INFO CARDS — 52% to 88% ═══
+    // ΓòÉΓòÉΓòÉ INFO CARDS ΓÇö 52% to 88% ΓòÉΓòÉΓòÉ
 
     var cardCount = cards.length;
     var cardsStart = 0.52;
@@ -308,7 +308,7 @@ document.addEventListener("DOMContentLoaded", function () {
         );
     });
 
-    // ═══ CTA BUTTONS — 90% to 97% ═══
+    // ΓòÉΓòÉΓòÉ CTA BUTTONS ΓÇö 90% to 97% ΓòÉΓòÉΓòÉ
 
     tl.fromTo(
         ctaButtons,
@@ -324,9 +324,9 @@ document.addEventListener("DOMContentLoaded", function () {
         0.92
     );
 
-    // ═══════════════════════════════════════════
+    // ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
     // AUTH MODAL SYSTEM
-    // ═══════════════════════════════════════════
+    // ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
 
     var authBackdrop = document.getElementById('auth-backdrop');
     var authModal = document.getElementById('auth-modal');
@@ -437,7 +437,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // ── CTA button handlers ──
+    // ΓöÇΓöÇ CTA button handlers ΓöÇΓöÇ
     document.getElementById('btn-login').addEventListener('click', function (e) {
         e.preventDefault();
         openAuth(panelLogin);
@@ -448,7 +448,7 @@ document.addEventListener("DOMContentLoaded", function () {
         openAuth(panelSignup1);
     });
 
-    // ── Top-right landing nav buttons ──
+    // ΓöÇΓöÇ Top-right landing nav buttons ΓöÇΓöÇ
     document.getElementById('nav-login').addEventListener('click', function (e) {
         e.preventDefault();
         openAuth(panelLogin);
@@ -459,7 +459,7 @@ document.addEventListener("DOMContentLoaded", function () {
         openAuth(panelSignup1);
     });
 
-    // ── Panel navigation links ──
+    // ΓöÇΓöÇ Panel navigation links ΓöÇΓöÇ
     document.getElementById('go-signup').addEventListener('click', function (e) {
         e.preventDefault();
         switchPanel(panelLogin, panelSignup1);
@@ -475,7 +475,7 @@ document.addEventListener("DOMContentLoaded", function () {
         switchPanel(panelSignup2, panelLogin);
     });
 
-    // ── Forgot password navigation ──
+    // ΓöÇΓöÇ Forgot password navigation ΓöÇΓöÇ
     document.getElementById('go-forgot').addEventListener('click', function (e) {
         e.preventDefault();
         startForgotPasswordFlow({ fromPanel: panelLogin, animate: true });
@@ -491,7 +491,7 @@ document.addEventListener("DOMContentLoaded", function () {
         switchPanel(panelForgotOtp, panelLogin);
     });
 
-    // ── Send OTP (Email step) → OTP verify panel ──
+    // ΓöÇΓöÇ Send OTP (Email step) ΓåÆ OTP verify panel ΓöÇΓöÇ
     document.getElementById('forgot-send-otp').addEventListener('click', function (e) {
         e.preventDefault();
         var email = document.getElementById('forgot-email').value.trim();
@@ -499,7 +499,7 @@ document.addEventListener("DOMContentLoaded", function () {
         switchPanel(panelForgot, panelForgotOtp);
     });
 
-    // ── OTP Verify → New Password panel ──
+    // ΓöÇΓöÇ OTP Verify ΓåÆ New Password panel ΓöÇΓöÇ
     document.getElementById('forgot-verify-otp').addEventListener('click', function (e) {
         e.preventDefault();
         var otp = document.getElementById('forgot-otp').value.trim();
@@ -508,7 +508,7 @@ document.addEventListener("DOMContentLoaded", function () {
         switchPanel(panelForgotOtp, panelNewpass);
     });
 
-    // ── New Password → Confirm & go to Login ──
+    // ΓöÇΓöÇ New Password ΓåÆ Confirm & go to Login ΓöÇΓöÇ
     document.getElementById('newpass-submit').addEventListener('click', function (e) {
         e.preventDefault();
         handlePasswordConfirmation({
@@ -528,23 +528,23 @@ document.addEventListener("DOMContentLoaded", function () {
         switchPanel(panelNewpass, panelLogin);
     });
 
-    // ── Signup step navigation ──
+    // ΓöÇΓöÇ Signup step navigation ΓöÇΓöÇ
     document.getElementById('signup-next').addEventListener('click', function (e) {
         e.preventDefault();
         switchPanel(panelSignup1, panelSignup2);
     });
 
-    // ── Backdrop click to close ──
+    // ΓöÇΓöÇ Backdrop click to close ΓöÇΓöÇ
     authBackdrop.addEventListener('click', function () {
         closeAuth();
     });
 
     openLoginFromUrlFlag();
 
-    // ═══════════════════════════════════════════
+    // ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
     // POST-AUTH TRANSITION
-    // Landing → Loader → Main App
-    // ═══════════════════════════════════════════
+    // Landing ΓåÆ Loader ΓåÆ Main App
+    // ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
 
     var loaderTriggered = false;
 
@@ -591,14 +591,14 @@ document.addEventListener("DOMContentLoaded", function () {
             ease: 'power2.inOut',
         }, 0);
 
-        // 4. Show "Launching app…" loader after 0.6s
+        // 4. Show "Launching appΓÇª" loader after 0.6s
         exitTl.to(loader, {
             opacity: 1,
             duration: 0.5,
             ease: 'power2.inOut',
         }, 0.6);
 
-        // 5. After loader visible, hide landing → show main app
+        // 5. After loader visible, hide landing ΓåÆ show main app
         exitTl.call(function () {
             // Hide landing elements completely
             overlay.style.display = 'none';
@@ -611,7 +611,7 @@ document.addEventListener("DOMContentLoaded", function () {
             // Kill all ScrollTrigger instances (clean up scroll driver)
             ScrollTrigger.getAll().forEach(function (st) { st.kill(); });
 
-            // Restore main app scroll behavior (overflow:hidden — main-content handles its own scroll)
+            // Restore main app scroll behavior (overflow:hidden ΓÇö main-content handles its own scroll)
             document.body.style.overflow = 'hidden';
         }, null, null, 1.3);
 
@@ -643,15 +643,81 @@ document.addEventListener("DOMContentLoaded", function () {
         }, null, null, 1.6);
     }
 
-    // ── Auth submit handlers ──
-    document.getElementById('login-submit').addEventListener('click', function (e) {
+    // u{2500}u{2500} API helper for base URL u{2500}u{2500}
+    const API_BASE = 'http://127.0.0.1:5000/api';
+
+    // u{2500}u{2500} Auth submit handlers u{2500}u{2500}
+    document.getElementById('login-submit').addEventListener('click', async function (e) {
         e.preventDefault();
-        triggerLoader();
+        var username = document.getElementById('login-username').value;
+        var password = document.getElementById('login-password').value;
+        try {
+            let res = await fetch(API_BASE + '/auth/login', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({email: username, password: password})
+            });
+            let data = await res.json();
+            if(res.ok) {
+                localStorage.setItem('token', data.token);
+                localStorage.setItem('user_id', data.user_id);
+                localStorage.setItem('username', data.username);
+                localStorage.setItem('full_name', data.full_name);
+                localStorage.setItem('email', data.email);
+                localStorage.setItem('phone', data.phone);
+                localStorage.setItem('about', data.about);
+                triggerLoader();
+                setTimeout(updateProfileUI, 1000);
+            } else {
+                alert(data.message || 'Login failed');
+            }
+        } catch(err) {
+            console.error(err);
+            alert('Error connecting to backend');
+        }
     });
 
-    document.getElementById('signup-submit').addEventListener('click', function (e) {
+    document.getElementById('signup-submit').addEventListener('click', async function (e) {
         e.preventDefault();
-        triggerLoader();
+        var name = document.getElementById('signup-name').value;
+        var email = document.getElementById('signup-email').value;
+        var gender = document.getElementById('signup-gender').value;
+        var dob = document.getElementById('signup-dob').value;
+        var phone = document.getElementById('signup-phone').value;
+        var username = document.getElementById('signup-username').value;
+        var password = document.getElementById('signup-password').value;
+        var confirm = document.getElementById('signup-confirm').value;
+
+        if (password !== confirm) {
+            alert("Passwords don't match");
+            return;
+        }
+
+        try {
+            let res = await fetch(API_BASE + '/auth/register', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    email: email,
+                    user_id: username,
+                    password: password,
+                    full_name: name,
+                    phone: phone,
+                    gender: gender,
+                    dob: dob
+                })
+            });
+            let data = await res.json();
+            if(res.ok) {
+                alert('Registration successful! Please login.');
+                document.getElementById('go-login-2').click();
+            } else {
+                alert(data.message || 'Signup failed');
+            }
+        } catch(err) {
+            console.error(err);
+            alert('Error connecting to backend');
+        }
     });
 
 }); // end DOMContentLoaded
@@ -667,7 +733,36 @@ document.addEventListener("DOMContentLoaded", function () {
     'use strict';
 
     // Current user identity
-    const CURRENT_USER_ID = 'yogiraj-kulkarni';
+    const CURRENT_USER_ID = localStorage.getItem('username') || 'yogiraj-kulkarni';
+    
+    window.updateProfileUI = function() {
+        const USER_FULL_NAME = localStorage.getItem('full_name') || 'Yogiraj Kulkarni';
+        const USER_HANDLE = localStorage.getItem('username') || 'yogiraj-kulkarni';
+        const USER_INITIALS = USER_FULL_NAME.split(' ').map(n => n.charAt(0)).join('').substring(0, 2).toUpperCase();
+
+        document.querySelectorAll('.account-name, #lpName, #previewPostName').forEach(el => {
+            el.textContent = USER_FULL_NAME;
+        });
+        
+        document.querySelectorAll('.sidebar-nav .avatar-initials, .account-profile .avatar-initials, .style-demo').forEach(el => {
+            el.textContent = USER_INITIALS;
+        });
+        
+        document.querySelectorAll('.account-email').forEach(el => {
+            el.textContent = localStorage.getItem('email') || (USER_HANDLE + '@example.com');
+        });
+
+        const accountPhone = document.getElementById('accountPhoneDisplay');
+        if (accountPhone) accountPhone.textContent = localStorage.getItem('phone') || '+91 98765 43210';
+
+        const accountBio = document.getElementById('accountBioDisplay');
+        if (accountBio) accountBio.textContent = localStorage.getItem('about') || 'Exploring the world, one ride at a time \uD83C\uDF0D';
+    };
+    
+    // Call it immediately on load if already logged in
+    if(localStorage.getItem('token')) {
+        updateProfileUI();
+    }
 
     // Configuration
     const CONFIG = {
@@ -723,7 +818,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // Force reflow so the new page starts from its hidden transform state
         void newPageEl.offsetWidth;
 
-        // Enter new page immediately — both transitions run in parallel
+        // Enter new page immediately ΓÇö both transitions run in parallel
         newPageEl.classList.add('active');
         currentPage = newPage;
 
@@ -1093,10 +1188,10 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById('modalFromLocation').textContent = fromLocation;
         document.getElementById('modalToLocation').textContent = toLocation;
         document.getElementById('modalVehicleType').textContent = vehicleType;
-        document.getElementById('modalBaseFare').textContent = `₹${baseFare}`;
-        document.getElementById('modalPlatformFee').textContent = `₹${platformFee}`;
-        document.getElementById('modalTax').textContent = `₹${tax}`;
-        document.getElementById('modalTotal').textContent = `₹${total}`;
+        document.getElementById('modalBaseFare').textContent = `Γé╣${baseFare}`;
+        document.getElementById('modalPlatformFee').textContent = `Γé╣${platformFee}`;
+        document.getElementById('modalTax').textContent = `Γé╣${tax}`;
+        document.getElementById('modalTotal').textContent = `Γé╣${total}`;
 
         // Show modal
         modal.classList.add('active');
@@ -1343,7 +1438,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 { type: 'received', text: 'Perfect! Should I wait at the usual spot near the metro station?', time: '9:33 AM' },
                 { type: 'sent', text: 'Yes, same place as last time. I\'ll be in the white Honda City', time: '9:35 AM' },
                 { type: 'received', text: 'Great! How much should I transfer for the ride?', time: '9:36 AM' },
-                { type: 'sent', text: 'It\'s ₹45 for the bike ride, but since we\'re doing car pooling with 2 more people, it\'ll be just ₹35 per person 👍', time: '9:38 AM' },
+                { type: 'sent', text: 'It\'s Γé╣45 for the bike ride, but since we\'re doing car pooling with 2 more people, it\'ll be just Γé╣35 per person ≡ƒæì', time: '9:38 AM' },
                 { type: 'received', text: 'That\'s a good deal! I\'ll pay you in the morning', time: '9:40 AM' },
                 { type: 'sent', text: 'No worries! You can also pay via UPI if that\'s easier', time: '9:41 AM' },
                 { type: 'received', text: 'See you at 9 AM tomorrow!', time: '9:42 AM' },
@@ -1355,7 +1450,7 @@ document.addEventListener("DOMContentLoaded", function () {
             messages: [
                 { type: 'received', text: 'The ride was really smooth today!', time: '4:30 PM' },
                 { type: 'sent', text: 'Glad you liked it! Same route tomorrow?', time: '4:32 PM' },
-                { type: 'received', text: 'Thanks for the ride today 🚗', time: '4:45 PM' },
+                { type: 'received', text: 'Thanks for the ride today ≡ƒÜù', time: '4:45 PM' },
             ]
         },
         rohan: {
@@ -1583,7 +1678,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
                 <path d="M13.73 21a2 2 0 0 1-3.46 0" fill="none" stroke-width="2" />
             </svg>
-            <span><strong>${escapeHtml(creatorName)}</strong> posted a new ride: ${escapeHtml(postData.pickup)} → ${escapeHtml(postData.destination)}</span>
+            <span><strong>${escapeHtml(creatorName)}</strong> posted a new ride: ${escapeHtml(postData.pickup)} ΓåÆ ${escapeHtml(postData.destination)}</span>
         `;
         document.body.appendChild(toast);
 
@@ -1780,7 +1875,7 @@ document.addEventListener("DOMContentLoaded", function () {
         notificationState.isAnimating = true;
 
         // Spring-based collapse: add .collapsing first (sets 420ms transition + bounce keyframe),
-        // then remove .expanded to trigger grid-template-rows 1fr → 0fr
+        // then remove .expanded to trigger grid-template-rows 1fr ΓåÆ 0fr
         requestAnimationFrame(() => {
             if (card) card.classList.remove('replying');
             wrapper.classList.add('collapsing');
@@ -1823,13 +1918,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 notificationList.classList.add('has-expanded-card');
             }
 
-            // Expand via grid-template-rows 0fr → 1fr
+            // Expand via grid-template-rows 0fr ΓåÆ 1fr
             wrapper.classList.add('expanded');
             notificationState.expandedWrapper = wrapper;
 
             // After 450ms grid transition settles:
-            // – Message cards enter reply mode
-            // – Other cards just finish
+            // ΓÇô Message cards enter reply mode
+            // ΓÇô Other cards just finish
             onTransitionEnd(wrapper, () => {
                 if (card && card.dataset.type === 'message' && !card.classList.contains('replied')) {
                     card.classList.add('replying');
@@ -1851,7 +1946,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const card = wrapper.querySelector('.notification-card');
             if (!card) return;
 
-            // General card click — mark as read + handle expansion
+            // General card click ΓÇö mark as read + handle expansion
             card.addEventListener('click', function (e) {
                 // Don't trigger if clicking on reply elements or context preview
                 if (e.target.closest('.reply-toggle-btn, .inline-reply-container, .reply-context-preview')) {
@@ -1874,18 +1969,18 @@ document.addEventListener("DOMContentLoaded", function () {
                 // Ripple glow effect
                 createCardRipple(this, e);
 
-                // Handle expansion — unified for all card types
+                // Handle expansion ΓÇö unified for all card types
                 if (wrapper.classList.contains('expanded')) {
-                    // Clicking the same expanded card — collapse it
+                    // Clicking the same expanded card ΓÇö collapse it
                     collapseExpandedCard();
                 } else if (notificationState.expandedWrapper) {
-                    // Another card is expanded — collapse it first, then expand this one
+                    // Another card is expanded ΓÇö collapse it first, then expand this one
                     const wrapperToExpand = wrapper;
                     collapseExpandedCard(() => {
                         expandCard(wrapperToExpand);
                     });
                 } else {
-                    // No card expanded — expand this one
+                    // No card expanded ΓÇö expand this one
                     expandCard(wrapper);
                 }
             });
@@ -1927,7 +2022,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 });
             }
 
-            // Reply input — enter to send, prevent propagation
+            // Reply input ΓÇö enter to send, prevent propagation
             const replyInput = card.querySelector('.reply-input');
             if (replyInput) {
                 replyInput.addEventListener('keydown', (e) => {
@@ -1940,7 +2035,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 replyInput.addEventListener('click', (e) => e.stopPropagation());
             }
 
-            // Emoji button — prevent propagation (decorative for now)
+            // Emoji button ΓÇö prevent propagation (decorative for now)
             const emojiBtn = card.querySelector('.reply-emoji-btn');
             if (emojiBtn) {
                 emojiBtn.addEventListener('click', (e) => e.stopPropagation());
@@ -1965,7 +2060,7 @@ document.addEventListener("DOMContentLoaded", function () {
         setTimeout(() => ripple.remove(), 600);
     }
 
-    // Send reply — simulates API call
+    // Send reply ΓÇö simulates API call
     function sendReply(wrapper) {
         const card = wrapper.querySelector('.notification-card');
         const input = card?.querySelector('.reply-input');
@@ -1976,7 +2071,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const chatId = card.dataset.chatId;
         const notificationList = wrapper.closest('.notification-list');
 
-        // Set sending state — remove replying but keep expanded
+        // Set sending state ΓÇö remove replying but keep expanded
         card.classList.add('sending');
         card.classList.remove('replying');
 
@@ -2455,77 +2550,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function publishPost() {
-        const feedScroll = document.querySelector('#page-home .feed-scroll');
-        if (!feedScroll) return;
-
-        const isBike = postDraft.vehicleType === 'bike';
-        const isEditing = editingPostId !== null;
-
-        // Build post data object for persistence
-        const postData = {
-            id: isEditing ? editingPostId : Date.now(),
-            pickup: postDraft.pickup,
-            destination: postDraft.destination,
-            price: postDraft.price,
-            seats: postDraft.seats,
-            vehicleType: postDraft.vehicleType,
-            departTime: postDraft.departTime,
-            arriveTime: postDraft.arriveTime,
-            pickupAddress: { ...postDraft.pickupAddress },
-            destAddress: { ...postDraft.destAddress },
-            passengers: [],
-            createdBy: CURRENT_USER_ID,
-            createdAt: new Date().toISOString()
-        };
-
-        // Save to localStorage
-        const savedPosts = JSON.parse(localStorage.getItem('travel_posts') || '[]');
-
-        if (isEditing) {
-            // Update existing post
-            const idx = savedPosts.findIndex(p => String(p.id) === String(editingPostId));
-            if (idx !== -1) {
-                postData.passengers = savedPosts[idx].passengers || [];
-                postData.createdAt = savedPosts[idx].createdAt;
-                savedPosts[idx] = postData;
-            }
-            // Remove old DOM card
-            const oldCard = document.querySelector(`#page-home .post-card[data-post-id="${editingPostId}"]`);
-            if (oldCard) oldCard.remove();
-        } else {
-            savedPosts.unshift(postData);
-        }
-
-        localStorage.setItem('travel_posts', JSON.stringify(savedPosts));
-
-        // Create new post card element
-        const newPost = createPostCardElement(postData);
-
-        // Insert at the top of feed
-        feedScroll.insertBefore(newPost, feedScroll.firstChild);
-
-        // Initialize interactions on the new card
-        initPostCardInteractions(newPost);
-
-        // Animate entry
-        setTimeout(() => {
-            newPost.classList.add('visible');
-            newPost.style.animation = `pop-in ${CONFIG.animationDuration}ms ${CONFIG.easeOutExpo} forwards`;
-        }, 50);
-
-        // Reset and navigate
-        editingPostId = null;
-        resetPostForm();
-        navigateToHome();
-
-        // Notify followers of this creator
-        if (!editingPostId) {
-            const followedList = getFollowedCreators();
-            // The current user is 'yogiraj-kulkarni'; check if anyone follows them
-            if (followedList.includes('yogiraj-kulkarni')) {
-                notifyFollowers('Yogiraj Kulkarni', postData);
-            }
-        }
+        // Handled by api.js
     }
 
     function createPostCardElement(postData) {
@@ -2610,7 +2635,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 <div class="route-collapsed">
                     <div class="route-label">
                         <span class="route-from">${escapeHtml(postData.pickup)}</span>
-                        <span class="route-dot">•</span>
+                        <span class="route-dot">ΓÇó</span>
                         <span class="route-to">${escapeHtml(postData.destination)}</span>
                     </div>
                     <button class="route-address-btn" aria-label="Toggle address">
@@ -2674,7 +2699,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 </div>
                 <div class="transport-footer">
                     <div class="price-badge">
-                        <span class="currency">₹</span>
+                        <span class="currency">Γé╣</span>
                         <span class="amount">${postData.price}</span>
                     </div>
                     <div class="seat-status" data-max-seats="${maxSeats}">
@@ -2794,7 +2819,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // ============================================
-    // Post Management — Delete & Edit
+    // Post Management ΓÇö Delete & Edit
     // ============================================
     function showDeleteConfirmation(postId, postCard) {
         // Remove any existing modal
@@ -2956,7 +2981,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // ============================================
-    // Booked Rides — localStorage helpers
+    // Booked Rides ΓÇö localStorage helpers
     // ============================================
     function getRawBookedRides() {
         const raw = JSON.parse(localStorage.getItem('booked_rides') || '[]');
@@ -3047,7 +3072,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // ============================================
-    // Completed Rides — localStorage helpers
+    // Completed Rides ΓÇö localStorage helpers
     // ============================================
 
     // Clear any stale history data on fresh load
@@ -3182,7 +3207,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // ============================================
-    // Seat Management — Helpers
+    // Seat Management ΓÇö Helpers
     // ============================================
     function getSeatInfo(postId, vehicleType) {
         const maxSeats = vehicleType === 'bike' ? 1 : 3;
@@ -3235,166 +3260,14 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // ============================================
-    // Booked Rides — Render Page
+    // Booked Rides ΓÇö Render Page
     // ============================================
     function renderBookedRides() {
-        const feedScroll = document.getElementById('bookedFeedScroll');
-        const emptyState = document.getElementById('bookedEmptyState');
-        const countEl = document.getElementById('bookedRidesCount');
-        if (!feedScroll) return;
-
-        feedScroll.innerHTML = '';
-        const bookedIds = getBookedRides();
-
-        if (bookedIds.length === 0) {
-            if (emptyState) emptyState.style.display = 'flex';
-            if (countEl) countEl.textContent = '0 rides';
-            return;
-        }
-
-        if (emptyState) emptyState.style.display = 'none';
-        if (countEl) countEl.textContent = `${bookedIds.length} ride${bookedIds.length !== 1 ? 's' : ''}`;
-
-        bookedIds.forEach((postId, index) => {
-            let card = null;
-
-            if (String(postId).startsWith('static-')) {
-                const original = document.querySelector(`#page-home .post-card[data-post-id="${postId}"]`);
-                if (original) card = original.cloneNode(true);
-            } else {
-                const savedPosts = JSON.parse(localStorage.getItem('travel_posts') || '[]');
-                const postData = savedPosts.find(p => String(p.id) === String(postId));
-                if (postData) card = createPostCardElement(postData);
-            }
-
-            if (!card) return;
-
-            // Replace register button with action buttons container
-            const regWrapper = card.querySelector('.register-wrapper');
-            if (regWrapper) {
-                const actionsContainer = document.createElement('div');
-                actionsContainer.className = 'booked-ride-actions';
-
-                // Cancel Registration button
-                const cancelBtn = document.createElement('button');
-                cancelBtn.className = 'cancel-registration-btn';
-                cancelBtn.innerHTML = `
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <line x1="18" y1="6" x2="6" y2="18" />
-                        <line x1="6" y1="6" x2="18" y2="18" />
-                    </svg>
-                    Cancel Registration
-                `;
-                cancelBtn.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    removeBookedRide(postId);
-
-                    // Sync the Home feed card
-                    const homeCard = document.querySelector(`#page-home .post-card[data-post-id="${postId}"]`);
-                    if (homeCard) {
-                        const homeWrapper = homeCard.querySelector('.register-wrapper');
-                        if (homeWrapper) {
-                            homeWrapper.classList.add('deregistering');
-                            homeWrapper.classList.remove('registered');
-                            setTimeout(() => homeWrapper.classList.remove('deregistering'), 400);
-                        }
-                        updateSeatStatusUI(homeCard);
-                    }
-
-                    card.classList.add('booked-card-removing');
-                    setTimeout(() => {
-                        card.remove();
-                        const remaining = getBookedRides();
-                        if (countEl) countEl.textContent = `${remaining.length} ride${remaining.length !== 1 ? 's' : ''}`;
-                        if (remaining.length === 0 && emptyState) emptyState.style.display = 'flex';
-                    }, 350);
-                });
-
-                // Complete Ride button
-                const completeBtn = document.createElement('button');
-                completeBtn.className = 'complete-ride-btn';
-                completeBtn.innerHTML = `
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="20 6 9 17 4 12" />
-                    </svg>
-                    Complete Ride
-                `;
-                completeBtn.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-
-                    // Show rating modal first
-                    showRatingModal(postId, function (rating) {
-                        // 1. Change button text to "Completed ✓"
-                        completeBtn.classList.add('completed');
-                        completeBtn.innerHTML = 'Completed ✓';
-                        completeBtn.disabled = true;
-                        cancelBtn.disabled = true;
-                        cancelBtn.style.opacity = '0.4';
-                        cancelBtn.style.pointerEvents = 'none';
-
-                        // 2. Update status to completed with rating
-                        completeRide(postId, rating);
-
-                        // 3. Sync the Home feed card
-                        const homeCard = document.querySelector(`#page-home .post-card[data-post-id="${postId}"]`);
-                        if (homeCard) {
-                            const homeWrapper = homeCard.querySelector('.register-wrapper');
-                            if (homeWrapper) {
-                                homeWrapper.classList.add('deregistering');
-                                homeWrapper.classList.remove('registered');
-                                setTimeout(() => homeWrapper.classList.remove('deregistering'), 400);
-                            }
-                            updateSeatStatusUI(homeCard);
-                        }
-
-                        // 4. After 1 second, remove the card
-                        setTimeout(() => {
-                            card.classList.add('booked-card-removing');
-                            setTimeout(() => {
-                                card.remove();
-                                const remaining = getBookedRides();
-                                if (countEl) countEl.textContent = `${remaining.length} ride${remaining.length !== 1 ? 's' : ''}`;
-                                if (remaining.length === 0 && emptyState) emptyState.style.display = 'flex';
-                            }, 350);
-                        }, 1000);
-                    });
-                });
-
-                actionsContainer.appendChild(cancelBtn);
-                actionsContainer.appendChild(completeBtn);
-                regWrapper.replaceWith(actionsContainer);
-            }
-
-            // Re-init address toggle on cloned card
-            const addrBtn = card.querySelector('.route-address-btn');
-            if (addrBtn) {
-                addrBtn.addEventListener('click', function (e) {
-                    e.stopPropagation();
-                    const strip = this.closest('.route-strip');
-                    if (!strip) return;
-                    const details = strip.querySelector('.route-address-details');
-                    if (!details) return;
-                    if (strip.classList.contains('expanded')) {
-                        springCollapseAddress(details, strip);
-                    } else {
-                        springExpandAddress(details, strip);
-                    }
-                });
-            }
-
-            feedScroll.appendChild(card);
-
-            setTimeout(() => {
-                card.classList.add('visible');
-                card.style.animation = `pop-in ${CONFIG.animationDuration}ms ${CONFIG.easeOutExpo} forwards`;
-            }, index * CONFIG.staggerDelay);
-        });
+        // Handled by api.js
     }
 
     // ============================================
-    // Completed Rides — History Rendering
+    // Completed Rides ΓÇö History Rendering
     // ============================================
     function renderCompletedHistory() {
         const historyList = document.querySelector('#page-history .history-list');
@@ -4055,7 +3928,7 @@ document.addEventListener("DOMContentLoaded", function () {
 })();
 
 // ============================================
-// FLOATING CHAT SYSTEM — ChatManager
+// FLOATING CHAT SYSTEM ΓÇö ChatManager
 // ============================================
 (function () {
     'use strict';
@@ -4080,7 +3953,7 @@ document.addEventListener("DOMContentLoaded", function () {
         priya: [
             { from: 'them', text: 'The ride was really smooth today!', time: '4:30 PM' },
             { from: 'me', text: 'Glad you liked it! Same route tomorrow?', time: '4:32 PM' },
-            { from: 'them', text: 'Thanks for the ride today 🚗', time: '4:45 PM' },
+            { from: 'them', text: 'Thanks for the ride today ≡ƒÜù', time: '4:45 PM' },
         ],
         rohan: [
             { from: 'me', text: 'Sure, 8:30 AM works for me.', time: '3:00 PM' },
@@ -4143,7 +4016,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    // ---- Chat item click → open window ----
+    // ---- Chat item click ΓåÆ open window ----
     fcPanelList.addEventListener('click', (e) => {
         const item = e.target.closest('.fc-chat-item');
         if (!item) return;
@@ -4226,7 +4099,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 ${messagesHTML}
             </div>
             <div class="fc-window-input">
-                <input class="fc-input-field" type="text" placeholder="Message…" id="fc-input-${chatId}" />
+                <input class="fc-input-field" type="text" placeholder="MessageΓÇª" id="fc-input-${chatId}" />
                 <button class="fc-send-btn" data-chat="${chatId}" aria-label="Send">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <line x1="22" y1="2" x2="11" y2="13" />
@@ -4380,10 +4253,10 @@ document.addEventListener("DOMContentLoaded", function () {
 (function () {
     'use strict';
 
-    // ── Defaults ──
+    // ΓöÇΓöÇ Defaults ΓöÇΓöÇ
     const DEFAULTS = {
         name: 'Yogiraj Kulkarni',
-        bio: 'Exploring the world, one ride at a time 🌍',
+        bio: 'Exploring the world, one ride at a time ≡ƒîì',
         initials: 'YK',
         accent: 'blue',
         avatarSrc: '',
@@ -4393,7 +4266,7 @@ document.addEventListener("DOMContentLoaded", function () {
         animations: true,
     };
 
-    // ── Accent color map ──
+    // ΓöÇΓöÇ Accent color map ΓöÇΓöÇ
     const ACCENT_MAP = {
         blue: { main: 'rgba(100,149,237,0.9)', bg: 'rgba(100,149,237,0.3)', border: 'rgba(100,149,237,0.4)' },
         purple: { main: 'rgba(168,85,247,0.9)', bg: 'rgba(168,85,247,0.3)', border: 'rgba(168,85,247,0.4)' },
@@ -4405,10 +4278,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const BIO_MAX = 150;
 
-    // ── Session state ──
+    // ΓöÇΓöÇ Session state ΓöÇΓöÇ
     let currentState = { ...DEFAULTS };
 
-    // ── DOM refs ──
+    // ΓöÇΓöÇ DOM refs ΓöÇΓöÇ
     const mainView = document.getElementById('accountMainView');
     const editView = document.getElementById('editProfileView');
     const editBtn = document.getElementById('editProfileBtn');
@@ -4464,9 +4337,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (!mainView || !editView || !editBtn) return;
 
-    // ═══════════════════════════════════════
+    // ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
     // VIEW TOGGLING
-    // ═══════════════════════════════════════
+    // ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
     function showEditView() {
         nameInput.value = currentState.name;
         bioInput.value = currentState.bio;
@@ -4541,9 +4414,9 @@ document.addEventListener("DOMContentLoaded", function () {
     editBtn.addEventListener('click', showEditView);
     backBtn.addEventListener('click', showMainView);
 
-    // ═══════════════════════════════════════
+    // ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
     // LIVE PREVIEW - Updates as user types
-    // ═══════════════════════════════════════
+    // ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
     function updateLivePreview() {
         if (lpName) lpName.textContent = nameInput.value || 'Your Name';
         if (lpBio) lpBio.textContent = bioInput.value || 'Your bio will appear here...';
@@ -4581,9 +4454,9 @@ document.addEventListener("DOMContentLoaded", function () {
         updateLivePreview();
     });
 
-    // ═══════════════════════════════════════
+    // ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
     // BIO CHARACTER COUNTER
-    // ═══════════════════════════════════════
+    // ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
     function updateCharCounter() {
         const len = bioInput.value.length;
         charCounter.textContent = `${len}/${BIO_MAX}`;
@@ -4595,9 +4468,9 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    // ═══════════════════════════════════════
+    // ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
     // PROFILE PICTURE PREVIEW
-    // ═══════════════════════════════════════
+    // ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
     picInput.addEventListener('change', function () {
         const file = this.files[0];
         if (!file || !file.type.startsWith('image/')) return;
@@ -4613,9 +4486,9 @@ document.addEventListener("DOMContentLoaded", function () {
         reader.readAsDataURL(file);
     });
 
-    // ═══════════════════════════════════════
+    // ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
     // COVER PHOTO UPLOAD
-    // ═══════════════════════════════════════
+    // ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
     if (coverUpload && coverInput) {
         coverUpload.addEventListener('click', function () {
             coverInput.click();
@@ -4636,9 +4509,9 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // ═══════════════════════════════════════
+    // ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
     // AVATAR FALLBACK STYLE PICKER
-    // ═══════════════════════════════════════
+    // ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
     if (avatarStylePicker) {
         avatarStylePicker.addEventListener('click', function (e) {
             const opt = e.target.closest('.avatar-style-opt');
@@ -4660,9 +4533,9 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // ═══════════════════════════════════════
+    // ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
     // EMOJI PICKER
-    // ═══════════════════════════════════════
+    // ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
     if (emojiToggle && emojiPanel) {
         emojiToggle.addEventListener('click', function () {
             emojiPanel.classList.toggle('open');
@@ -4698,9 +4571,9 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // ═══════════════════════════════════════
+    // ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
     // ACCENT COLOR PICKER
-    // ═══════════════════════════════════════
+    // ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
     accentPicker.addEventListener('click', function (e) {
         const swatch = e.target.closest('.accent-swatch');
         if (!swatch) return;
@@ -4734,9 +4607,9 @@ document.addEventListener("DOMContentLoaded", function () {
         if (activeNav) activeNav.style.textShadow = `0 0 12px ${colors.bg}`;
     }
 
-    // ═══════════════════════════════════════
+    // ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
     // UI DENSITY TOGGLE
-    // ═══════════════════════════════════════
+    // ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
     document.querySelectorAll('.density-opt').forEach(opt => {
         opt.addEventListener('click', function () {
             const density = this.dataset.density;
@@ -4749,9 +4622,9 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
-    // ═══════════════════════════════════════
+    // ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
     // ANIMATIONS TOGGLE
-    // ═══════════════════════════════════════
+    // ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
     if (animToggle) {
         animToggle.addEventListener('change', function () {
             currentState.animations = this.checked;
@@ -4759,16 +4632,16 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // ═══════════════════════════════════════
+    // ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
     // CENTRALIZED PROFILE PROPAGATION
-    // Single source of truth → updates ALL UI
-    // ═══════════════════════════════════════
+    // Single source of truth ΓåÆ updates ALL UI
+    // ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
     const previewPostName = document.getElementById('previewPostName');
 
     function propagateProfile() {
         const s = currentState;
 
-        // ── 1. Account Page Header ──
+        // ΓöÇΓöÇ 1. Account Page Header ΓöÇΓöÇ
         if (nameDisplay) nameDisplay.textContent = s.name;
         if (bioDisplay) bioDisplay.textContent = s.bio || 'No bio yet';
         syncAvatarPreview(avatarImgDisp, avatarInitials, avatarDisplay);
@@ -4784,11 +4657,11 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
 
-        // ── 2. ALL user name displays ──
+        // ΓöÇΓöÇ 2. ALL user name displays ΓöÇΓöÇ
         if (postUserName) postUserName.textContent = s.name;
         if (previewPostName) previewPostName.textContent = s.name;
 
-        // ── 3. UNIVERSAL avatar propagation ──
+        // ΓöÇΓöÇ 3. UNIVERSAL avatar propagation ΓöÇΓöÇ
         // Update every [data-user-initials] span in the DOM
         document.querySelectorAll('[data-user-initials]').forEach(el => {
             el.textContent = s.initials;
@@ -4806,16 +4679,16 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
 
-        // ── 4. Edit View (sync avatar circle) ──
+        // ΓöÇΓöÇ 4. Edit View (sync avatar circle) ΓöÇΓöÇ
         syncAvatarPreview(editAvatarImg, editAvatarInit, editAvatarCircle);
 
-        // ── 5. Live Preview Card ──
+        // ΓöÇΓöÇ 5. Live Preview Card ΓöÇΓöÇ
         updateLivePreview();
     }
 
-    // ═══════════════════════════════════════
+    // ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
     // SAVE CHANGES
-    // ═══════════════════════════════════════
+    // ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
     saveBtn.addEventListener('click', function () {
         const newName = nameInput.value.trim();
         const newBio = bioInput.value.trim();
@@ -4845,9 +4718,9 @@ document.addEventListener("DOMContentLoaded", function () {
         }, 1200);
     });
 
-    // ═══════════════════════════════════════
+    // ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
     // RESET
-    // ═══════════════════════════════════════
+    // ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
     resetBtn.addEventListener('click', function () {
         currentState = { ...DEFAULTS };
 
@@ -4913,7 +4786,7 @@ document.addEventListener("DOMContentLoaded", function () {
 /* =========================================================
    Privacy & Security Panel
    Toggles the Privacy sub-view within the Account page.
-   Frontend-only — state resets on page refresh.
+   Frontend-only ΓÇö state resets on page refresh.
    ========================================================= */
 (function () {
     'use strict';
@@ -4926,7 +4799,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (!mainView || !privacyView || !privacyBtn || !privacyBack) return;
 
-    // ── View toggling ──
+    // ΓöÇΓöÇ View toggling ΓöÇΓöÇ
     function showPrivacyView() {
         mainView.style.display = 'none';
         if (editView) editView.classList.remove('active');
@@ -4941,7 +4814,7 @@ document.addEventListener("DOMContentLoaded", function () {
     privacyBtn.addEventListener('click', showPrivacyView);
     privacyBack.addEventListener('click', hidePrivacyView);
 
-    // ── Profile Visibility Toggle ──
+    // ΓöÇΓöÇ Profile Visibility Toggle ΓöÇΓöÇ
     const profileVisToggle = document.getElementById('profileVisToggle');
     const profileVisBadge = document.getElementById('profileVisBadge');
     const profileVisDesc = document.getElementById('profileVisDesc');
@@ -4964,7 +4837,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // ── Show Email Toggle ──
+    // ΓöÇΓöÇ Show Email Toggle ΓöÇΓöÇ
     const showEmailToggle = document.getElementById('showEmailToggle');
     const emailDisplay = document.getElementById('accountEmailDisplay');
 
@@ -4974,7 +4847,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // ── Show Phone Toggle ──
+    // ΓöÇΓöÇ Show Phone Toggle ΓöÇΓöÇ
     const showPhoneToggle = document.getElementById('showPhoneToggle');
     const phoneDisplay = document.getElementById('accountPhoneDisplay');
 

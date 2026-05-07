@@ -1,0 +1,387 @@
+================================================================================
+           TRAVEL CONNECT — FULL END-TO-END TEST PLAN
+           Two Users | All Modules | Step-by-Step
+================================================================================
+
+PREREQUISITES
+─────────────
+1. Open terminal in: travel connect\backend
+2. Activate venv:    ..\venv\Scripts\Activate.ps1
+3. Start server:     python app.py
+4. Open TWO browser windows (or use one normal + one incognito)
+   Both go to:       http://localhost:5000
+
+
+TEST USER CREDENTIALS
+─────────────────────
+
+  User A (Alice)                     User B (Bob)
+  ─────────────────                  ─────────────────
+  Full Name:   Alice Sharma          Full Name:   Bob Patil
+  Email:       alice@test.com        Email:       bob@test.com
+  Username:    alice-sharma          Username:    bob-patil
+  Password:    Test@1234             Password:    Test@1234
+  Phone:       9876543210           Phone:       9876543211
+  Gender:      Female                Gender:      Male
+  DOB:         2000-01-15            DOB:         1999-06-20
+
+
+================================================================================
+MODULE 1: LANDING PAGE
+================================================================================
+
+[✓] 1.1  Page loads with 3D Earth animation (Three.js globe spinning)
+[✓] 1.2  Scroll down — Earth shrinks, info cards appear one by one
+[✓] 1.3  Scroll to bottom — "Login" and "Sign Up" CTA buttons appear
+[✓] 1.4  Top-right "Login" and "Sign Up" nav buttons are clickable
+[✓] 1.5  Clicking "Login" opens the auth modal on the Login panel
+[✓] 1.6  Clicking "Sign Up" opens the auth modal on the Sign Up panel
+
+
+================================================================================
+MODULE 2: REGISTRATION (Sign Up)
+================================================================================
+
+── User A (Alice) — Browser Window 1 ──
+
+[✓] 2.1  Click "Sign Up" on the landing page
+[✓] 2.2  Fill Step 1:
+           Full Name:  Alice Sharma
+           Email:      alice@test.com
+           Gender:     Female
+           DOB:        2000-01-15
+           Phone:      9876543210
+[✓] 2.3  Click "NEXT" → Step 2 panel appears
+[✓] 2.4  Fill Step 2:
+           Username:   alice-sharma
+           Password:   Test@1234
+           Confirm:    Test@1234
+[✓] 2.5  Check "I agree to the Terms" checkbox
+[✓] 2.6  Click "SIGN UP"
+[✓] 2.7  ✅ EXPECTED: Alert "Registration successful! Please login."
+[✓] 2.8  Modal switches to the Login panel automatically
+
+── User B (Bob) — Browser Window 2 (Incognito) ──
+
+[✓] 2.9   Repeat steps 2.1–2.8 with Bob's credentials (see table above)
+[✓] 2.10  ✅ EXPECTED: Alert "Registration successful! Please login."
+
+── Error Cases ──
+
+[✓] 2.11  Try registering with alice@test.com again
+         ✅ EXPECTED: "Email already registered"
+[✓] 2.12  Try registering with username alice-sharma again
+         ✅ EXPECTED: "Username already taken"
+[✓] 2.13  Try registering with phone 9876543210 again
+         ✅ EXPECTED: "Phone number already registered"
+
+
+================================================================================
+MODULE 3: LOGIN
+================================================================================
+
+── User A (Alice) — Window 1 ──
+
+[✓] 3.1  On Login panel, enter:
+           Username:  alice@test.com   (or alice-sharma — both work)
+           Password:  Test@1234
+[✓] 3.2  Click "LOGIN"
+[✓] 3.3  ✅ EXPECTED: Smooth transition — Landing fades out → Loader appears
+         → Main app dashboard fades in
+[✓] 3.4  Sidebar navigation is visible (Home, Chat, + Post, Account, History, Booked)
+
+── User B (Bob) — Window 2 ──
+
+[✓] 3.5  Login with bob@test.com / Test@1234
+[✓] 3.6  ✅ EXPECTED: Same transition to the main dashboard
+
+── Error Cases ──
+
+[✓] 3.7  Try login with wrong password → "Invalid credentials"
+[✓] 3.8  Try login with non-existent email → "Invalid credentials"
+
+
+================================================================================
+MODULE 4: ACCOUNT / PROFILE PAGE
+================================================================================
+
+── User A (Alice) — Window 1 ──
+
+[✓] 4.1  Click "Account" in sidebar
+[✓] 4.2  ✅ VERIFY profile shows data from database:
+           Name:   Alice Sharma
+           Email:  alice@test.com
+           Phone:  9876543210
+           Bio:    "Exploring the world, one ride at a time 🌍" (default)
+[✓] 4.3  Click "Edit Profile"
+[✓] 4.4  Change Display Name to "Alice S."
+[✓] 4.5  Change Bio to "Love road trips! 🚗"
+[✓] 4.6  Verify the Live Preview card updates in real time
+[✓] 4.7  Click "Save Changes"
+[✓] 4.8  Click Back → profile page should show updated name and bio
+
+── User B (Bob) — Window 2 ──
+
+[✓] 4.9   Click "Account" in sidebar
+[✓] 4.10  ✅ VERIFY profile shows Bob's data:
+            Name:   Bob Patil
+            Email:  bob@test.com
+            Phone:  9876543211
+
+── Privacy & Security ──
+
+[✓] 4.11  Click "Privacy & Security" from account menu
+[✓] 4.12  Toggle "Profile Visibility" off → badge changes to "Private"
+[✓] 4.13  Toggle "Show Email" off → email should get hidden on profile
+[✓] 4.14  Toggle "Show Phone Number" off → phone should get hidden
+[✓] 4.15  Click Back
+
+── Settings ──
+
+[✓] 4.16  Click "Settings" from account menu
+[✓] 4.17  Verify "Change Password", "Notifications", "Location", "Sounds" toggles
+[✓] 4.18  Click Back
+
+
+================================================================================
+MODULE 5: POST A RIDE
+================================================================================
+
+── User A (Alice) posts a ride ──
+
+[✓] 5.1  Click "+ Post" in sidebar
+[✓] 5.2  Verify your name + avatar are shown at the top of the form
+[✓] 5.3  Fill in:
+           Start Location:     Pune Station
+           Destination:        Mumbai Airport
+           Departure Time:     08:30
+           Vehicle Type:       Car (click the Car option)
+[✓] 5.4  Click "Publish" / submit button
+[✓] 5.5  ✅ EXPECTED: Alert "Ride published to real database!"
+[✓] 5.6  Auto-navigates to Home page
+[✓] 5.7  ✅ VERIFY: Alice's ride card appears in the feed:
+           - Shows "Alice Sharma" (or "Alice S." if you edited)
+           - Shows "Pune Station" → "Mumbai Airport"
+           - Shows departure time 08:30
+           - Shows "Car" vehicle badge
+
+── User B (Bob) posts a ride ──
+
+[✓] 5.8   Click "+ Post" in sidebar (Window 2)
+[✓] 5.9   Fill in:
+            Start Location:     Hinjewadi IT Park
+            Destination:        Pune Station
+            Departure Time:     18:00
+            Vehicle Type:       Bike (click the Bike option)
+[✓] 5.10  Click "Publish"
+[✓] 5.11  ✅ EXPECTED: Alert "Ride published to real database!"
+[✓] 5.12  ✅ VERIFY: Bob's ride card appears in the feed
+
+
+================================================================================
+MODULE 6: HOME PAGE FEED & SEARCH
+================================================================================
+
+── User A — Window 1 ──
+
+[✓] 6.1  Click "Home" in sidebar
+[✓] 6.2  ✅ VERIFY: Feed shows BOTH rides:
+           - Alice's ride (Pune Station → Mumbai Airport)
+           - Bob's ride (Hinjewadi IT Park → Pune Station)
+[✓] 6.3  Each ride card should show:
+           - Driver name + avatar initials
+           - Route (pickup → dropoff)
+           - Departure time
+           - Vehicle type icon (Car/Bike)
+           - "Register" button (to book)
+           - "Message" button (to chat with driver)
+
+── Search Module ──
+
+[✓] 6.4  In the route search bar:
+           From: Pune
+           To:   (leave empty)
+[✓] 6.5  Click search icon
+[✓] 6.6  ✅ EXPECTED: Only rides with "Pune" in pickup show (both should match)
+
+[✓] 6.7  Clear search, then:
+           From: Hinjewadi
+           To:   (leave empty)
+[✓] 6.8  Click search icon
+[✓] 6.9  ✅ EXPECTED: Only Bob's ride shows (Hinjewadi IT Park → Pune Station)
+
+[✓] 6.10 Clear search, then:
+           From: (leave empty)
+           To:   Mumbai
+[✓] 6.11 Click search icon
+[✓] 6.12 ✅ EXPECTED: Only Alice's ride shows (Pune Station → Mumbai Airport)
+
+[✓] 6.13 Clear both fields and search
+[✓] 6.14 ✅ EXPECTED: All rides show again
+
+── Swap Button ──
+
+[✓] 6.15 Type "Pune" in From, "Mumbai" in To
+[✓] 6.16 Click the swap button (↕)
+[✓] 6.17 ✅ VERIFY: From = "Mumbai", To = "Pune"
+
+
+================================================================================
+MODULE 7: BOOK A RIDE
+================================================================================
+
+── User A books Bob's ride ──
+
+[✓] 7.1  On Home page (Window 1), find Bob's ride card
+[✓] 7.2  Click "Register" button on Bob's ride
+[✓] 7.3  Confirm dialog appears → Click OK
+[✓] 7.4  ✅ EXPECTED: Alert "Ride booked successfully"
+
+── User B books Alice's ride ──
+
+[✓] 7.5  On Home page (Window 2), find Alice's ride card
+[✓] 7.6  Click "Register" button on Alice's ride
+[✓] 7.7  Confirm dialog → OK
+[✓] 7.8  ✅ EXPECTED: Alert "Ride booked successfully"
+
+── Error Cases ──
+
+[✓] 7.9  User A clicks "Register" on their OWN ride
+         ✅ EXPECTED: "Cannot book your own ride"
+[✓] 7.10 User A clicks "Register" on Bob's ride AGAIN
+         ✅ EXPECTED: "Already booked/requested this ride"
+
+
+================================================================================
+MODULE 8: BOOKED RIDES PAGE
+================================================================================
+
+── User A — Window 1 ──
+
+[✓] 8.1  Click "Booked" in sidebar
+[✓] 8.2  ✅ VERIFY: Shows Alice's booked ride:
+           - Bob Patil as driver
+           - Hinjewadi IT Park → Pune Station
+           - Status badge shows "pending"
+[✓] 8.3  Ride count at top should show "1 ride"
+
+── User B — Window 2 ──
+
+[✓] 8.4  Click "Booked" in sidebar
+[✓] 8.5  ✅ VERIFY: Shows Bob's booked ride:
+           - Alice Sharma as driver
+           - Pune Station → Mumbai Airport
+           - Status badge shows "pending"
+[✓] 8.6  Ride count should show "1 ride"
+
+
+================================================================================
+MODULE 9: CHAT — Direct Messaging
+================================================================================
+
+── Method 1: Chat via ride card "Message" button ──
+
+[✓] 9.1  User A (Window 1): Click "Home" → find Bob's ride card
+[✓] 9.2  Click "Message" button on Bob's ride
+[✓] 9.3  ✅ EXPECTED: Switches to Chat page, Bob's name shows in chat header
+[✓] 9.4  Type "Hi Bob! I booked your ride from Hinjewadi." in message input
+[✓] 9.5  Click send (arrow button)
+[✓] 9.6  ✅ VERIFY: Message appears as outgoing (right-aligned bubble)
+
+── Method 2: Chat via "New Chat" button ──
+
+[✓] 9.7   User B (Window 2): Click "Chat" in sidebar
+[✓] 9.8   Click the compose/new-chat button (pencil icon at top-right)
+[✓] 9.9   Prompt appears — enter: alice-sharma
+[✓] 9.10  ✅ EXPECTED: Chat opens with Alice Sharma
+[✓] 9.11  Type "Hey Alice! See you at Pune Station." and send
+[✓] 9.12  ✅ VERIFY: Message appears as outgoing bubble
+
+── Verify two-way conversation ──
+
+[✓] 9.13  User A (Window 1): Chat page should now show Bob's reply
+          (wait a few seconds for polling, or click on Bob's name in inbox)
+[✓] 9.14  ✅ VERIFY: Both messages visible in correct order:
+            [Alice →] "Hi Bob! I booked your ride from Hinjewadi."
+            [Bob →]   "Hey Alice! See you at Pune Station."
+
+[✓] 9.15  User A sends another message: "What time exactly?"
+[✓] 9.16  User B (Window 2): Should see it appear within 3 seconds (auto-poll)
+
+── Inbox ──
+
+[✓] 9.17  User A: Check inbox panel on left side of chat page
+          ✅ VERIFY: Shows "Bob Patil" with latest message preview
+[✓] 9.18  User B: Check inbox panel
+          ✅ VERIFY: Shows "Alice Sharma" with latest message preview
+
+── Chat via phone number ──
+
+[✓] 9.19  User B: Click new-chat button → enter phone: 9876543210
+[✓] 9.20  ✅ EXPECTED: Opens chat with Alice (resolved by phone number)
+
+
+================================================================================
+MODULE 10: NAVIGATION & UI POLISH
+================================================================================
+
+[✓] 10.1  Click through all sidebar tabs rapidly:
+            Home → Chat → + Post → Account → History → Booked → Home
+[✓] 10.2  ✅ VERIFY: Page transitions are smooth, no flickering
+[✓] 10.3  No JavaScript errors in browser console (F12 → Console tab)
+[✓] 10.4  Ripple effect appears on sidebar buttons when clicked
+[✓] 10.5  Notification bell icon is visible in sidebar footer
+
+── Logout ──
+
+[✓] 10.6  Click "Account" → Click "Log Out"
+[✓] 10.7  ✅ EXPECTED: Returns to landing page (or clears session)
+[✓] 10.8  Verify localStorage is cleared (F12 → Application → Local Storage)
+
+
+================================================================================
+MODULE 11: HISTORY PAGE
+================================================================================
+
+[✓] 11.1  Click "History" in sidebar
+[✓] 11.2  ✅ VERIFY: Shows completed/past ride history
+          (May be empty if no rides are marked as completed yet)
+
+
+================================================================================
+QUICK REFERENCE — EXPECTED DATA AFTER ALL TESTS
+================================================================================
+
+  Database should contain:
+  ┌────────────────────────────────────────────────┐
+  │ USERS                                          │
+  │  1. alice-sharma (Alice Sharma, alice@test.com) │
+  │  2. bob-patil (Bob Patil, bob@test.com)         │
+  ├────────────────────────────────────────────────┤
+  │ RIDE POSTS                                     │
+  │  1. Pune Station → Mumbai Airport (Alice, Car)  │
+  │  2. Hinjewadi IT Park → Pune Station (Bob, Bike)│
+  ├────────────────────────────────────────────────┤
+  │ BOOKINGS                                       │
+  │  1. Alice booked Bob's ride (pending)           │
+  │  2. Bob booked Alice's ride (pending)           │
+  ├────────────────────────────────────────────────┤
+  │ CHAT MESSAGES                                  │
+  │  1. Alice → Bob: "Hi Bob! I booked your ride…" │
+  │  2. Bob → Alice: "Hey Alice! See you at…"      │
+  │  3. Alice → Bob: "What time exactly?"           │
+  └────────────────────────────────────────────────┘
+
+
+================================================================================
+PASS CRITERIA
+================================================================================
+
+  All checkboxes [ ] above should be [✓]
+  No JS console errors
+  Both users can see each other's rides, book them, and chat
+  Profile data matches what was registered
+  Search filters rides correctly
+  Booked rides section shows correct bookings
+
+================================================================================
