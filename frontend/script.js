@@ -491,33 +491,85 @@ document.addEventListener("DOMContentLoaded", function () {
         switchPanel(panelForgotOtp, panelLogin);
     });
 
-    // ΓöÇΓöÇ Send OTP (Email step) ΓåÆ OTP verify panel ΓöÇΓöÇ
-    document.getElementById('forgot-send-otp').addEventListener('click', function (e) {
+    // ── Send OTP (Email step) → OTP verify panel ──
+    document.getElementById('forgot-send-otp').addEventListener('click', async function (e) {
         e.preventDefault();
         var email = document.getElementById('forgot-email').value.trim();
         if (!email) return;
-        switchPanel(panelForgot, panelForgotOtp);
+        
+        try {
+            let res = await fetch('http://127.0.0.1:5000/api/auth/forgot-password/send-otp', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: email })
+            });
+            let data = await res.json();
+            if (res.ok) {
+                switchPanel(panelForgot, panelForgotOtp);
+            } else {
+                alert(data.message || 'Error sending OTP');
+            }
+        } catch(err) {
+            console.error(err);
+            alert('Network error');
+        }
     });
 
-    // ΓöÇΓöÇ OTP Verify ΓåÆ New Password panel ΓöÇΓöÇ
-    document.getElementById('forgot-verify-otp').addEventListener('click', function (e) {
+    // ── OTP Verify → New Password panel ──
+    document.getElementById('forgot-verify-otp').addEventListener('click', async function (e) {
         e.preventDefault();
+        var email = document.getElementById('forgot-email').value.trim();
         var otp = document.getElementById('forgot-otp').value.trim();
         if (!otp) return;
-        // Frontend-only: accept any non-empty OTP
-        switchPanel(panelForgotOtp, panelNewpass);
+        
+        try {
+            let res = await fetch('http://127.0.0.1:5000/api/auth/forgot-password/verify-otp', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: email, otp: otp })
+            });
+            let data = await res.json();
+            if (res.ok) {
+                switchPanel(panelForgotOtp, panelNewpass);
+            } else {
+                alert(data.message || 'Invalid OTP');
+            }
+        } catch(err) {
+            console.error(err);
+            alert('Network error');
+        }
     });
 
-    // ΓöÇΓöÇ New Password ΓåÆ Confirm & go to Login ΓöÇΓöÇ
+    // ── New Password → Confirm & go to Login ──
     document.getElementById('newpass-submit').addEventListener('click', function (e) {
         e.preventDefault();
         handlePasswordConfirmation({
             passwordId: 'newpass-password',
             confirmId: 'newpass-confirm',
             errorId: 'newpass-error',
-            onValid: function () {
-                clearFieldValues(['newpass-password', 'newpass-confirm', 'forgot-email', 'forgot-otp']);
-                switchPanel(panelNewpass, panelLogin);
+            onValid: async function () {
+                var email = document.getElementById('forgot-email').value.trim();
+                var otp = document.getElementById('forgot-otp').value.trim();
+                var newPassword = document.getElementById('newpass-password').value;
+                
+                try {
+                    let res = await fetch('http://127.0.0.1:5000/api/auth/forgot-password/reset', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email: email, otp: otp, new_password: newPassword })
+                    });
+                    let data = await res.json();
+                    if (res.ok) {
+                        alert(data.message || 'Password reset successfully');
+                        clearFieldValues(['newpass-password', 'newpass-confirm', 'forgot-email', 'forgot-otp']);
+                        switchPanel(panelNewpass, panelLogin);
+                    } else {
+                        document.getElementById('newpass-error').textContent = data.message || 'Error resetting password';
+                    }
+                } catch(err) {
+                    console.error(err);
+                    document.getElementById('newpass-error').textContent = 'Network error';
+                }
             },
         });
     });
@@ -3854,33 +3906,62 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     if (settingsPasswordButtons.sendOtp) {
-        settingsPasswordButtons.sendOtp.addEventListener('click', function () {
-            const emailValue = settingsPasswordInputs.email ? settingsPasswordInputs.email.value.trim() : '';
-            if (!emailValue) {
-                if (settingsPasswordErrors.email) settingsPasswordErrors.email.textContent = 'Please enter your email';
-                return;
+        settingsPasswordButtons.sendOtp.addEventListener('click', async function () {
+            try {
+                const token = localStorage.getItem('token');
+                let res = await fetch('http://127.0.0.1:5000/api/auth/settings/send-otp', {
+                    method: 'POST',
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                let data = await res.json();
+                if (res.ok) {
+                    if (settingsPasswordErrors.email) settingsPasswordErrors.email.textContent = '';
+                    showSettingsPasswordStep('otp');
+                } else {
+                    if (settingsPasswordErrors.email) settingsPasswordErrors.email.textContent = data.message || 'Error sending OTP';
+                }
+            } catch(err) {
+                console.error(err);
+                if (settingsPasswordErrors.email) settingsPasswordErrors.email.textContent = 'Network error';
             }
-            if (settingsPasswordErrors.email) settingsPasswordErrors.email.textContent = '';
-            showSettingsPasswordStep('otp');
         });
     }
 
     if (settingsPasswordButtons.verifyOtp) {
-        settingsPasswordButtons.verifyOtp.addEventListener('click', function () {
+        settingsPasswordButtons.verifyOtp.addEventListener('click', async function () {
             const otpValue = settingsPasswordInputs.otp ? settingsPasswordInputs.otp.value.trim() : '';
             if (!otpValue) {
                 if (settingsPasswordErrors.otp) settingsPasswordErrors.otp.textContent = 'Please enter OTP';
                 return;
             }
-            if (settingsPasswordErrors.otp) settingsPasswordErrors.otp.textContent = '';
-            showSettingsPasswordStep('confirm');
+            
+            try {
+                const token = localStorage.getItem('token');
+                let res = await fetch('http://127.0.0.1:5000/api/auth/settings/verify-otp', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                    body: JSON.stringify({ otp: otpValue })
+                });
+                let data = await res.json();
+                
+                if (res.ok) {
+                    if (settingsPasswordErrors.otp) settingsPasswordErrors.otp.textContent = '';
+                    showSettingsPasswordStep('confirm');
+                } else {
+                    if (settingsPasswordErrors.otp) settingsPasswordErrors.otp.textContent = data.message || 'Invalid OTP';
+                }
+            } catch(err) {
+                console.error(err);
+                if (settingsPasswordErrors.otp) settingsPasswordErrors.otp.textContent = 'Network error';
+            }
         });
     }
 
     if (settingsPasswordButtons.confirm) {
-        settingsPasswordButtons.confirm.addEventListener('click', function () {
+        settingsPasswordButtons.confirm.addEventListener('click', async function () {
             const passwordValue = settingsPasswordInputs.password ? settingsPasswordInputs.password.value : '';
             const confirmValue = settingsPasswordInputs.confirmPassword ? settingsPasswordInputs.confirmPassword.value : '';
+            const otpValue = settingsPasswordInputs.otp ? settingsPasswordInputs.otp.value.trim() : '';
 
             if (!passwordValue || !confirmValue) {
                 if (settingsPasswordErrors.confirm) settingsPasswordErrors.confirm.textContent = 'Please fill in both password fields';
@@ -3891,8 +3972,26 @@ document.addEventListener("DOMContentLoaded", function () {
                 return;
             }
 
-            if (settingsPasswordErrors.confirm) settingsPasswordErrors.confirm.textContent = '';
-            window.location.href = window.location.pathname + '?auth=login';
+            try {
+                const token = localStorage.getItem('token');
+                let res = await fetch('http://127.0.0.1:5000/api/auth/settings/verify-reset', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                    body: JSON.stringify({ otp: otpValue, new_password: passwordValue })
+                });
+                let data = await res.json();
+                if (res.ok) {
+                    if (settingsPasswordErrors.confirm) settingsPasswordErrors.confirm.textContent = '';
+                    alert('Password changed successfully. Please login again.');
+                    localStorage.removeItem('token');
+                    window.location.href = window.location.pathname + '?auth=login';
+                } else {
+                    if (settingsPasswordErrors.confirm) settingsPasswordErrors.confirm.textContent = data.message || 'Error changing password';
+                }
+            } catch(err) {
+                console.error(err);
+                if (settingsPasswordErrors.confirm) settingsPasswordErrors.confirm.textContent = 'Network error';
+            }
         });
     }
 
