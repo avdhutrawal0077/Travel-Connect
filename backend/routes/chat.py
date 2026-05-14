@@ -73,11 +73,6 @@ def send_message(current_user):
         return jsonify({'message': 'Missing message content'}), 400
         
     receiver_id = data.get('receiver_id')
-    if receiver_id is not None:
-        try:
-            receiver_id = int(receiver_id)
-        except (ValueError, TypeError):
-            return jsonify({'message': 'Invalid receiver_id'}), 400
     
     new_msg = ChatMessage(
         sender_id=current_user.id,

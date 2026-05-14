@@ -796,9 +796,17 @@ document.addEventListener("DOMContentLoaded", function () {
             el.textContent = USER_FULL_NAME;
         });
         
-        document.querySelectorAll('.sidebar-nav .avatar-initials, .account-profile .avatar-initials, .style-demo').forEach(el => {
+        document.querySelectorAll('.sidebar-nav .avatar-initials, .account-avatar .avatar-initials, .account-header .avatar-initials, .style-demo, [data-user-initials]').forEach(el => {
             el.textContent = USER_INITIALS;
         });
+
+        // Also update specific avatar elements by ID
+        const avatarInit = document.getElementById('avatarInitials');
+        if (avatarInit) avatarInit.textContent = USER_INITIALS;
+        const editAvatarInit = document.getElementById('editAvatarInitials');
+        if (editAvatarInit) editAvatarInit.textContent = USER_INITIALS;
+        const lpInit = document.getElementById('lpInitials');
+        if (lpInit) lpInit.textContent = USER_INITIALS;
         
         document.querySelectorAll('.account-email').forEach(el => {
             el.textContent = localStorage.getItem('email') || (USER_HANDLE + '@example.com');
@@ -4508,7 +4516,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (lpName) lpName.textContent = nameInput.value || 'Your Name';
         if (lpBio) lpBio.textContent = bioInput.value || 'Your bio will appear here...';
 
-        const initials = (nameInput.value || 'YK').split(' ').map(w => w[0]).join('').substring(0, 2).toUpperCase();
+        const initials = (nameInput.value || localStorage.getItem('full_name') || 'U').split(' ').map(w => w[0]).join('').substring(0, 2).toUpperCase();
         if (lpInitials) lpInitials.textContent = initials;
 
         // Avatar in preview
