@@ -208,8 +208,14 @@ document.addEventListener("DOMContentLoaded", () => {
                         </div>
                         <div class="transport-section single-mode">
                             <div class="transport-footer">
-                                <div class="register-wrapper" style="display:flex; gap:10px;">
+                                <div class="register-wrapper" style="display:flex; gap:10px; align-items:center;">
                                     <span class="btn-text" style="padding:8px 16px; background:var(--accent); border-radius:8px; color:#fff;">Status: ${b.status}</span>
+                                    <button class="register-btn complete-ride-btn" onclick="completeRide(${b.booking_id})">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:4px;">
+                                            <polyline points="20 6 9 17 4 12"></polyline>
+                                        </svg>
+                                        <span class="btn-text register-text">Complete Ride</span>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -219,6 +225,83 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         } catch(e) {
             console.error('Error fetching booked rides:', e);
+        }
+    }
+
+    window.completeRide = async function(bookingId) {
+        if (!confirm('Mark this ride as completed?')) return;
+        try {
+            let res = await fetch(API_BASE + '/rides/complete-booking', {
+                method: 'PUT',
+                headers: getHeaders(),
+                body: JSON.stringify({ booking_id: bookingId })
+            });
+            let data = await res.json();
+            alert(data.message);
+            if (res.ok) {
+                loadBookedRides();
+                loadHistory();
+            }
+        } catch(e) {
+            console.error('Failed to complete ride:', e);
+        }
+    };
+
+    async function loadHistory() {
+        try {
+            let res = await fetch(API_BASE + '/rides/my-history', { headers: getHeaders() });
+            if (res.ok) {
+                let history = await res.json();
+                const historyList = document.querySelector('.history-list');
+                const emptyState = document.getElementById('historyEmptyState');
+                const countEl = document.querySelector('.history-count');
+                if (!historyList) return;
+
+                historyList.innerHTML = '';
+                if (history.length === 0) {
+                    if (emptyState) emptyState.style.display = 'flex';
+                    if (countEl) countEl.textContent = '0 rides';
+                    return;
+                }
+
+                if (emptyState) emptyState.style.display = 'none';
+                if (countEl) countEl.textContent = `${history.length} ride${history.length !== 1 ? 's' : ''}`;
+
+                history.forEach(h => {
+                    let card = document.createElement('div');
+                    card.className = 'history-card';
+                    const initials = h.driver_name ? h.driver_name.split(' ').map(n=>n.charAt(0)).join('').substring(0,2) : 'U';
+                    card.innerHTML = `
+                        <div class="history-card-collapsed">
+                            <div class="history-date">
+                                <span class="history-date-day">${h.date}</span>
+                                <span class="history-date-time">${h.time}</span>
+                            </div>
+                            <div class="history-route-strip">
+                                <div class="route-point start">
+                                    <svg class="start-icon" width="10" height="10" viewBox="0 0 24 24" fill="#22c55e" stroke="#22c55e" stroke-width="2"><circle cx="12" cy="12" r="8"/></svg>
+                                    <span>${h.pickup}</span>
+                                </div>
+                                <div class="route-track"><div class="track-line"></div></div>
+                                <div class="route-point end">
+                                    <svg class="end-icon" width="10" height="10" viewBox="0 0 24 24" fill="#ef4444" stroke="#ef4444" stroke-width="2"><circle cx="12" cy="12" r="8"/></svg>
+                                    <span>${h.dropoff}</span>
+                                </div>
+                            </div>
+                            <div class="history-meta">
+                                <span class="history-status-badge completed">Completed</span>
+                            </div>
+                            <div class="history-driver-label">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                                <span>${h.driver_name}</span>
+                            </div>
+                        </div>
+                    `;
+                    historyList.appendChild(card);
+                });
+            }
+        } catch(e) {
+            console.error('Error fetching ride history:', e);
         }
     }
 
@@ -235,11 +318,15 @@ document.addEventListener("DOMContentLoaded", () => {
         if (document.getElementById('page-booked') && document.getElementById('page-booked').classList.contains('active')) {
             loadBookedRides();
         }
+        if (document.getElementById('page-history') && document.getElementById('page-history').classList.contains('active')) {
+            loadHistory();
+        }
     }, 5000);
     // Load immediately if user is on home
     setTimeout(() => {
         loadRides();
         loadBookedRides();
+        loadHistory();
     }, 2000);
 
     // ── Create Post Interception ──

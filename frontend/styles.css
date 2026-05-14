@@ -1083,6 +1083,34 @@ input {
     pointer-events: none;
 }
 
+/* ============================================
+   COMPLETE RIDE BUTTON (Booked rides section)
+   ============================================ */
+.complete-ride-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: rgba(34, 197, 94, 0.15) !important;
+    border: 1px solid rgba(34, 197, 94, 0.35) !important;
+    color: #22c55e !important;
+    transition: all 0.3s ease;
+}
+
+.complete-ride-btn:hover {
+    background: rgba(34, 197, 94, 0.25) !important;
+    border-color: rgba(34, 197, 94, 0.55) !important;
+    box-shadow: 0 0 14px rgba(34, 197, 94, 0.2);
+    transform: translateY(-1px);
+}
+
+.complete-ride-btn:active {
+    transform: scale(0.96);
+}
+
+.complete-ride-btn .btn-text {
+    color: #22c55e !important;
+}
+
 /* Route Strip */
 .route-strip {
     display: flex;

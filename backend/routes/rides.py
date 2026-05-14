@@ -113,7 +113,11 @@ def delete_ride(current_user, ride_id):
 @rides_bp.route('/my-bookings', methods=['GET'])
 @token_required
 def get_my_bookings(current_user):
-    bookings = Booking.query.filter_by(passenger_id=current_user.id).all()
+    # Only return active (non-completed) bookings
+    bookings = Booking.query.filter(
+        Booking.passenger_id == current_user.id,
+        Booking.status != 'completed'
+    ).all()
     result = []
     for b in bookings:
         ride = RidePost.query.get(b.ride_id)
@@ -128,5 +132,53 @@ def get_my_bookings(current_user):
                 'time': ride.time,
                 'driver_name': driver.full_name if driver else 'Unknown',
                 'status': b.status
+            })
+    return jsonify(result), 200
+
+@rides_bp.route('/complete-booking', methods=['PUT'])
+@token_required
+def complete_booking(current_user):
+    data = request.get_json()
+    if not data or not data.get('booking_id'):
+        return jsonify({'message': 'Missing booking_id'}), 400
+
+    booking = Booking.query.get(data['booking_id'])
+    if not booking:
+        return jsonify({'message': 'Booking not found'}), 404
+
+    # Only the passenger who booked can complete it
+    if booking.passenger_id != current_user.id:
+        return jsonify({'message': 'You can only complete your own bookings'}), 403
+
+    if booking.status == 'completed':
+        return jsonify({'message': 'Booking already completed'}), 400
+
+    booking.status = 'completed'
+    db.session.commit()
+
+    return jsonify({'message': 'Ride completed successfully'}), 200
+
+@rides_bp.route('/my-history', methods=['GET'])
+@token_required
+def get_my_history(current_user):
+    bookings = Booking.query.filter_by(
+        passenger_id=current_user.id,
+        status='completed'
+    ).all()
+    result = []
+    for b in bookings:
+        ride = RidePost.query.get(b.ride_id)
+        if ride:
+            driver = User.query.get(ride.driver_id)
+            result.append({
+                'booking_id': b.id,
+                'ride_id': ride.id,
+                'pickup': ride.pickup_location,
+                'dropoff': ride.dropoff_location,
+                'date': ride.date,
+                'time': ride.time,
+                'driver_name': driver.full_name if driver else 'Unknown',
+                'status': b.status,
+                'completed_at': b.created_at.isoformat() if b.created_at else ''
             })
     return jsonify(result), 200
