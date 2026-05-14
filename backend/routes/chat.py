@@ -102,3 +102,18 @@ def resolve_user(current_user, identifier):
         'full_name': user.full_name
     }), 200
 
+@chat_bp.route('/conversation/<int:other_user_id>', methods=['DELETE'])
+@token_required
+def delete_conversation(current_user, other_user_id):
+    # Delete all messages between current user and the other user
+    deleted = ChatMessage.query.filter(
+        or_(
+            and_(ChatMessage.sender_id == current_user.id, ChatMessage.receiver_id == other_user_id),
+            and_(ChatMessage.sender_id == other_user_id, ChatMessage.receiver_id == current_user.id)
+        )
+    ).delete()
+
+    db.session.commit()
+
+    return jsonify({'message': f'Conversation deleted ({deleted} messages removed)'}), 200
+

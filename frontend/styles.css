@@ -1772,6 +1772,49 @@ input {
     font-weight: var(--weight-medium);
 }
 
+/* ── Inbox Delete Button ── */
+.inbox-delete-btn {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 28px;
+    height: 28px;
+    border-radius: var(--radius-full);
+    background: transparent;
+    border: 1px solid transparent;
+    color: rgba(255, 255, 255, 0.25);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    opacity: 0;
+    transition: all 0.25s ease;
+    z-index: 2;
+}
+
+.inbox-delete-btn svg {
+    width: 14px;
+    height: 14px;
+    pointer-events: none;
+}
+
+.inbox-item:hover .inbox-delete-btn {
+    opacity: 1;
+}
+
+.inbox-delete-btn:hover {
+    background: rgba(239, 68, 68, 0.15);
+    border-color: rgba(239, 68, 68, 0.35);
+    color: #ef4444;
+    transform: translateY(-50%) scale(1.1);
+}
+
+.inbox-delete-btn:active {
+    transform: translateY(-50%) scale(0.92);
+}
+
 .inbox-avatar {
     width: 42px;
     height: 42px;

@@ -395,6 +395,12 @@ document.addEventListener("DOMContentLoaded", () => {
                                 <span class="inbox-name">${c.user_name}</span>
                                 <span class="inbox-preview">${c.latest_message}</span>
                             </div>
+                            <button class="inbox-delete-btn" title="Delete conversation" onclick="event.stopPropagation(); deleteChat(${c.user_id}, '${c.user_name.replace(/'/g, "\\'")}')">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="3 6 5 6 21 6"></polyline>
+                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                </svg>
+                            </button>
                         `;
                         div.onclick = () => {
                             window.currentChatUserId = c.user_id;
@@ -413,6 +419,40 @@ document.addEventListener("DOMContentLoaded", () => {
             console.error(e);
         }
     }
+
+    window.deleteChat = async function(userId, userName) {
+        if (!confirm(`Delete entire conversation with ${userName}?`)) return;
+        try {
+            let res = await fetch(API_BASE + '/chat/conversation/' + userId, {
+                method: 'DELETE',
+                headers: getHeaders()
+            });
+            let data = await res.json();
+            alert(data.message);
+            if (res.ok) {
+                // If the deleted chat was the active one, clear the chat view
+                if (window.currentChatUserId === userId) {
+                    window.currentChatUserId = null;
+                    window.currentChatUserName = '';
+                    const chatUserHeader = document.getElementById('chatUserHeader');
+                    const chatEmptyHeader = document.getElementById('chatEmptyHeader');
+                    const messagesEmpty = document.getElementById('messagesEmptyState');
+                    const chatMsgs = document.getElementById('chatMessages');
+                    if (chatUserHeader) chatUserHeader.style.display = 'none';
+                    if (chatEmptyHeader) chatEmptyHeader.style.display = 'flex';
+                    if (messagesEmpty) messagesEmpty.style.display = 'flex';
+                    if (chatMsgs) {
+                        Array.from(chatMsgs.children).forEach(child => {
+                            if (child.id !== 'messagesEmptyState') child.remove();
+                        });
+                    }
+                }
+                loadInbox();
+            }
+        } catch(e) {
+            console.error('Failed to delete conversation:', e);
+        }
+    };
 
     async function loadChat() {
         if (!chatMessages) return;
