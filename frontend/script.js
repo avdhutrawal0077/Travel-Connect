@@ -1386,27 +1386,15 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function initChatInput() {
+        // Chat input is now handled by api.js which sends messages via the real backend API.
+        // Adding Enter key support here since api.js only handles click.
         if (!elements.messageInput || !elements.sendBtn) return;
 
-        function sendMessage() {
-            const text = elements.messageInput.value.trim();
-            if (!text) return;
-
-            const messageDiv = document.createElement('div');
-            messageDiv.className = 'message sent';
-            messageDiv.innerHTML = `
-                <div class="message-bubble">${escapeHtml(text)}</div>
-                <span class="message-time">${getCurrentTime()}</span>
-            `;
-
-            elements.chatMessages.appendChild(messageDiv);
-            elements.messageInput.value = '';
-            scrollToLatestMessage();
-        }
-
-        elements.sendBtn.addEventListener('click', sendMessage);
         elements.messageInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') sendMessage();
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                elements.sendBtn.click();
+            }
         });
     }
 

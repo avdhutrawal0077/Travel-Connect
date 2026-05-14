@@ -311,8 +311,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 
                 msgs.forEach(msg => {
                     let div = document.createElement('div');
-                    div.className = `message ${msg.is_me ? 'msg-out' : 'msg-in'}`;
-                    div.innerHTML = `<div class="msg-bubble">${msg.content}</div>`;
+                    div.className = `message ${msg.is_me ? 'sent' : 'received'}`;
+                    div.innerHTML = `<div class="message-bubble">${msg.content}</div>`;
                     chatMessages.appendChild(div);
                 });
                 chatMessages.scrollTop = chatMessages.scrollHeight;

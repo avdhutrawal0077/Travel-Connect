@@ -37,6 +37,10 @@ def get_messages(current_user):
     other_user_id = request.args.get('user_id')
     
     if other_user_id:
+        try:
+            other_user_id = int(other_user_id)
+        except (ValueError, TypeError):
+            return jsonify({'message': 'Invalid user_id'}), 400
         # Fetch 1-to-1 messages between current_user and other_user_id
         messages = ChatMessage.query.filter(
             or_(
@@ -69,6 +73,11 @@ def send_message(current_user):
         return jsonify({'message': 'Missing message content'}), 400
         
     receiver_id = data.get('receiver_id')
+    if receiver_id is not None:
+        try:
+            receiver_id = int(receiver_id)
+        except (ValueError, TypeError):
+            return jsonify({'message': 'Invalid receiver_id'}), 400
     
     new_msg = ChatMessage(
         sender_id=current_user.id,
