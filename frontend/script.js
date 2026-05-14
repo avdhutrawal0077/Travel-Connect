@@ -701,6 +701,13 @@ document.addEventListener("DOMContentLoaded", function () {
     // u{2500}u{2500} Auth submit handlers u{2500}u{2500}
     document.getElementById('login-submit').addEventListener('click', async function (e) {
         e.preventDefault();
+        
+        var termsCb = document.getElementById('login-terms-cb');
+        if (termsCb && !termsCb.checked) {
+            alert('Please agree to the Terms and Conditions before logging in.');
+            return;
+        }
+
         var username = document.getElementById('login-username').value;
         var password = document.getElementById('login-password').value;
         try {
@@ -731,6 +738,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
     document.getElementById('signup-submit').addEventListener('click', async function (e) {
         e.preventDefault();
+        
+        var termsCb = document.getElementById('signup-terms-cb');
+        if (termsCb && !termsCb.checked) {
+            alert('Please agree to the Terms and Conditions before signing up.');
+            return;
+        }
+
         var name = document.getElementById('signup-name').value;
         var email = document.getElementById('signup-email').value;
         var gender = document.getElementById('signup-gender').value;
@@ -3765,7 +3779,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const mainView = document.getElementById('accountMainView');
     const editView = document.getElementById('editProfileView');
-    const privacyView = document.getElementById('privacyView');
     const settingsView = document.getElementById('settingsView');
     const settingsBtn = document.getElementById('settingsBtn');
     const settingsBackBtn = document.getElementById('settingsBackBtn');
@@ -3794,9 +3807,7 @@ document.addEventListener("DOMContentLoaded", function () {
         confirm: document.getElementById('settingsPasswordConfirmBtn'),
     };
 
-    const notificationsToggle = document.getElementById('settingsNotificationsToggle');
-    const locationToggle = document.getElementById('settingsLocationToggle');
-    const soundsToggle = document.getElementById('settingsSoundsToggle');
+
     const notificationBtn = document.querySelector('.notification-btn');
     const notificationPanel = document.getElementById('notificationPanel');
     const notificationOverlay = document.getElementById('notificationOverlay');
@@ -3867,9 +3878,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function applyPermissions(state) {
         window.__appSettingsPermissions = state;
 
-        if (notificationsToggle) notificationsToggle.checked = !!state.notifications;
-        if (locationToggle) locationToggle.checked = !!state.location;
-        if (soundsToggle) soundsToggle.checked = !!state.sounds;
+
 
         document.body.classList.toggle('notifications-disabled', !state.notifications);
         document.body.dataset.locationAccess = state.location ? 'enabled' : 'disabled';
@@ -4003,23 +4012,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    if (notificationsToggle) {
-        notificationsToggle.addEventListener('change', function () {
-            updatePermission('notifications', this.checked);
-        });
-    }
 
-    if (locationToggle) {
-        locationToggle.addEventListener('change', function () {
-            updatePermission('location', this.checked);
-        });
-    }
-
-    if (soundsToggle) {
-        soundsToggle.addEventListener('change', function () {
-            updatePermission('sounds', this.checked);
-        });
-    }
 })();
 
 // ============================================
@@ -4465,13 +4458,6 @@ document.addEventListener("DOMContentLoaded", function () {
             avatarStyleGroup.style.display = currentState.avatarSrc ? 'none' : '';
         }
 
-        // Sync density
-        document.querySelectorAll('.density-opt').forEach(o => {
-            o.classList.toggle('active', o.dataset.density === currentState.density);
-        });
-
-        // Sync animations toggle
-        if (animToggle) animToggle.checked = currentState.animations;
 
         // Sync live preview
         updateLivePreview();
@@ -4702,30 +4688,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (activeNav) activeNav.style.textShadow = `0 0 12px ${colors.bg}`;
     }
 
-    // ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
-    // UI DENSITY TOGGLE
-    // ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
-    document.querySelectorAll('.density-opt').forEach(opt => {
-        opt.addEventListener('click', function () {
-            const density = this.dataset.density;
-            currentState.density = density;
 
-            document.querySelectorAll('.density-opt').forEach(o => o.classList.remove('active'));
-            this.classList.add('active');
-
-            document.body.classList.toggle('density-compact', density === 'compact');
-        });
-    });
-
-    // ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
-    // ANIMATIONS TOGGLE
-    // ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
-    if (animToggle) {
-        animToggle.addEventListener('change', function () {
-            currentState.animations = this.checked;
-            document.body.classList.toggle('no-animations', !this.checked);
-        });
-    }
 
     // ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
     // CENTRALIZED PROFILE PROPAGATION
@@ -4855,15 +4818,6 @@ document.addEventListener("DOMContentLoaded", function () {
         });
         applyAccent(DEFAULTS.accent);
 
-        // Reset density
-        document.querySelectorAll('.density-opt').forEach(o => {
-            o.classList.toggle('active', o.dataset.density === DEFAULTS.density);
-        });
-        document.body.classList.remove('density-compact');
-
-        // Reset animations
-        if (animToggle) animToggle.checked = true;
-        document.body.classList.remove('no-animations');
 
         // Close emoji panel
         if (emojiPanel) emojiPanel.classList.remove('open');
@@ -4878,77 +4832,4 @@ document.addEventListener("DOMContentLoaded", function () {
 
 })();
 
-/* =========================================================
-   Privacy & Security Panel
-   Toggles the Privacy sub-view within the Account page.
-   Frontend-only ΓÇö state resets on page refresh.
-   ========================================================= */
-(function () {
-    'use strict';
 
-    const mainView = document.getElementById('accountMainView');
-    const editView = document.getElementById('editProfileView');
-    const privacyView = document.getElementById('privacyView');
-    const privacyBtn = document.getElementById('privacyBtn');
-    const privacyBack = document.getElementById('privacyBackBtn');
-
-    if (!mainView || !privacyView || !privacyBtn || !privacyBack) return;
-
-    // ΓöÇΓöÇ View toggling ΓöÇΓöÇ
-    function showPrivacyView() {
-        mainView.style.display = 'none';
-        if (editView) editView.classList.remove('active');
-        privacyView.classList.add('active');
-    }
-
-    function hidePrivacyView() {
-        privacyView.classList.remove('active');
-        mainView.style.display = '';
-    }
-
-    privacyBtn.addEventListener('click', showPrivacyView);
-    privacyBack.addEventListener('click', hidePrivacyView);
-
-    // ΓöÇΓöÇ Profile Visibility Toggle ΓöÇΓöÇ
-    const profileVisToggle = document.getElementById('profileVisToggle');
-    const profileVisBadge = document.getElementById('profileVisBadge');
-    const profileVisDesc = document.getElementById('profileVisDesc');
-
-    if (profileVisToggle) {
-        profileVisToggle.addEventListener('change', function () {
-            const isPublic = this.checked;
-
-            if (profileVisBadge) {
-                profileVisBadge.textContent = isPublic ? 'Public' : 'Private';
-                profileVisBadge.classList.toggle('public', isPublic);
-                profileVisBadge.classList.toggle('private', !isPublic);
-            }
-
-            if (profileVisDesc) {
-                profileVisDesc.textContent = isPublic
-                    ? 'Your profile is visible to everyone'
-                    : 'Only you can see your profile';
-            }
-        });
-    }
-
-    // ΓöÇΓöÇ Show Email Toggle ΓöÇΓöÇ
-    const showEmailToggle = document.getElementById('showEmailToggle');
-    const emailDisplay = document.getElementById('accountEmailDisplay');
-
-    if (showEmailToggle && emailDisplay) {
-        showEmailToggle.addEventListener('change', function () {
-            emailDisplay.classList.toggle('privacy-hidden', !this.checked);
-        });
-    }
-
-    // ΓöÇΓöÇ Show Phone Toggle ΓöÇΓöÇ
-    const showPhoneToggle = document.getElementById('showPhoneToggle');
-    const phoneDisplay = document.getElementById('accountPhoneDisplay');
-
-    if (showPhoneToggle && phoneDisplay) {
-        showPhoneToggle.addEventListener('change', function () {
-            phoneDisplay.classList.toggle('privacy-hidden', !this.checked);
-        });
-    }
-})();

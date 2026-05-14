@@ -416,14 +416,7 @@
                                 <span>Edit Profile</span>
                                 <svg class="menu-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
                             </div>
-                            <div class="menu-item" id="privacyBtn">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2">
-                                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-                                </svg>
-                                <span>Privacy &amp; Security</span>
-                                <svg class="menu-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
-                            </div>
+
                             <div class="menu-item" id="settingsBtn">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                     stroke-width="2">
@@ -528,28 +521,7 @@
                             </div>
                         </div>
 
-                        <!-- UI Density -->
-                        <div class="edit-field-group">
-                            <label class="edit-field-label">UI Density</label>
-                            <div class="toggle-row">
-                                <div class="toggle-switch-group">
-                                    <button class="density-opt active" data-density="spacious" id="densitySpacious">Spacious</button>
-                                    <button class="density-opt" data-density="compact" id="densityCompact">Compact</button>
-                                </div>
-                            </div>
-                        </div>
 
-                        <!-- Animations Toggle -->
-                        <div class="edit-field-group">
-                            <label class="edit-field-label">Animations</label>
-                            <div class="toggle-row">
-                                <span class="toggle-description">Enable UI animations</span>
-                                <label class="toggle-switch">
-                                    <input type="checkbox" id="animToggle" checked />
-                                    <span class="toggle-slider"></span>
-                                </label>
-                            </div>
-                        </div>
 
                         <!-- Live Preview Card -->
                         <div class="edit-field-group">
@@ -582,75 +554,7 @@
                         </div>
                     </div>
 
-                    <!-- Privacy & Security View (hidden by default) -->
-                    <div id="privacyView" class="privacy-view">
-                        <div class="edit-profile-topbar">
-                            <button class="edit-back-btn" id="privacyBackBtn">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
-                                <span>Back</span>
-                            </button>
-                            <h2 class="edit-profile-title">Privacy &amp; Security</h2>
-                        </div>
 
-                        <!-- Profile Visibility -->
-                        <div class="privacy-section">
-                            <h3 class="privacy-section-title">
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-                                    <circle cx="12" cy="12" r="3"/>
-                                </svg>
-                                Profile Visibility
-                            </h3>
-                            <div class="privacy-card">
-                                <div class="privacy-toggle-row">
-                                    <div class="privacy-toggle-info">
-                                        <span class="privacy-toggle-label">Profile Visibility</span>
-                                        <span class="privacy-toggle-desc" id="profileVisDesc">Your profile is visible to everyone</span>
-                                    </div>
-                                    <div class="privacy-toggle-control">
-                                        <span class="privacy-status-badge public" id="profileVisBadge">Public</span>
-                                        <label class="toggle-switch">
-                                            <input type="checkbox" id="profileVisToggle" checked />
-                                            <span class="toggle-slider"></span>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Personal Info Visibility -->
-                        <div class="privacy-section">
-                            <h3 class="privacy-section-title">
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                                </svg>
-                                Personal Info Visibility
-                            </h3>
-                            <div class="privacy-card">
-                                <div class="privacy-toggle-row">
-                                    <div class="privacy-toggle-info">
-                                        <span class="privacy-toggle-label">Show Email</span>
-                                        <span class="privacy-toggle-desc">Display your email on your profile</span>
-                                    </div>
-                                    <label class="toggle-switch">
-                                        <input type="checkbox" id="showEmailToggle" checked />
-                                        <span class="toggle-slider"></span>
-                                    </label>
-                                </div>
-                                <div class="privacy-divider"></div>
-                                <div class="privacy-toggle-row">
-                                    <div class="privacy-toggle-info">
-                                        <span class="privacy-toggle-label">Show Phone Number</span>
-                                        <span class="privacy-toggle-desc">Display your phone number on your profile</span>
-                                    </div>
-                                    <label class="toggle-switch">
-                                        <input type="checkbox" id="showPhoneToggle" checked />
-                                        <span class="toggle-slider"></span>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
                     <!-- Settings View (hidden by default) -->
                     <div id="settingsView" class="settings-view">
@@ -681,49 +585,7 @@
                             </div>
                         </div>
 
-                        <div class="privacy-section">
-                            <h3 class="privacy-section-title">
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M12 2v20"/>
-                                    <path d="M2 12h20"/>
-                                </svg>
-                                Permissions
-                            </h3>
-                            <div class="privacy-card">
-                                <div class="privacy-toggle-row">
-                                    <div class="privacy-toggle-info">
-                                        <span class="privacy-toggle-label">Notifications</span>
-                                        <span class="privacy-toggle-desc">Show app notifications and alerts</span>
-                                    </div>
-                                    <label class="toggle-switch">
-                                        <input type="checkbox" id="settingsNotificationsToggle" checked />
-                                        <span class="toggle-slider"></span>
-                                    </label>
-                                </div>
-                                <div class="privacy-divider"></div>
-                                <div class="privacy-toggle-row">
-                                    <div class="privacy-toggle-info">
-                                        <span class="privacy-toggle-label">Location Access</span>
-                                        <span class="privacy-toggle-desc">Allow location-based features</span>
-                                    </div>
-                                    <label class="toggle-switch">
-                                        <input type="checkbox" id="settingsLocationToggle" checked />
-                                        <span class="toggle-slider"></span>
-                                    </label>
-                                </div>
-                                <div class="privacy-divider"></div>
-                                <div class="privacy-toggle-row">
-                                    <div class="privacy-toggle-info">
-                                        <span class="privacy-toggle-label">App Sounds</span>
-                                        <span class="privacy-toggle-desc">Play tap and confirmation sounds</span>
-                                    </div>
-                                    <label class="toggle-switch">
-                                        <input type="checkbox" id="settingsSoundsToggle" checked />
-                                        <span class="toggle-slider"></span>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
+
                     </div>
 
                     <div id="settingsPasswordBackdrop" class="settings-password-backdrop">

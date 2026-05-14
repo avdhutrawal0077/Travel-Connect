@@ -2,12 +2,23 @@ from flask import Blueprint, request, jsonify
 from models import RidePost, Booking, User
 from extensions import db
 from .auth_middleware import token_required
+from sqlalchemy import and_
 
 rides_bp = Blueprint('rides', __name__)
 
 @rides_bp.route('/', methods=['GET'])
-def get_rides():
-    query = RidePost.query.filter_by(status='open')
+@token_required
+def get_rides(current_user):
+    # Get IDs of rides that the current user has an active (non-completed) booking for
+    booked_ride_ids = db.session.query(Booking.ride_id).filter(
+        Booking.passenger_id == current_user.id,
+        Booking.status != 'completed'
+    ).subquery()
+
+    query = RidePost.query.filter(
+        RidePost.status == 'open',
+        ~RidePost.id.in_(booked_ride_ids)
+    )
     
     pickup = request.args.get('pickup')
     if pickup:
@@ -69,8 +80,12 @@ def book_ride(current_user):
     if ride.driver_id == current_user.id:
         return jsonify({'message': 'Cannot book your own ride'}), 400
         
-    # Check if already booked (before seat check so correct message is shown)
-    existing_booking = Booking.query.filter_by(ride_id=ride.id, passenger_id=current_user.id).first()
+    # Check if already booked with an ACTIVE (non-completed) booking
+    existing_booking = Booking.query.filter(
+        Booking.ride_id == ride.id,
+        Booking.passenger_id == current_user.id,
+        Booking.status != 'completed'
+    ).first()
     if existing_booking:
         return jsonify({'message': 'Already booked/requested this ride'}), 400
         
@@ -154,6 +169,14 @@ def complete_booking(current_user):
         return jsonify({'message': 'Booking already completed'}), 400
 
     booking.status = 'completed'
+
+    # Restore the seat back and reopen the ride so others (or the same user) can book again
+    ride = RidePost.query.get(booking.ride_id)
+    if ride:
+        ride.seats += 1
+        if ride.status == 'closed':
+            ride.status = 'open'
+
     db.session.commit()
 
     return jsonify({'message': 'Ride completed successfully'}), 200
