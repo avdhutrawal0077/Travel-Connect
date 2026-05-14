@@ -25,6 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (res.ok) {
                 let rides = await res.json();
                 feedScroll.innerHTML = '';
+                const currentUserId = localStorage.getItem('user_id');
                 rides.forEach(ride => {
                     let card = document.createElement('article');
                     card.className = 'post-card visible';
@@ -36,8 +37,22 @@ document.addEventListener("DOMContentLoaded", () => {
                         : `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="8" width="18" height="10" rx="2" /><circle cx="7" cy="18" r="2" /><circle cx="17" cy="18" r="2" /><path d="M5 8l2-4h10l2 4" /></svg>`;
                     const initials = ride.driver_name ? ride.driver_name.split(' ').map(n=>n.charAt(0)).join('').substring(0,2) : 'U';
 
+                    // Show delete button only if the current user is the ride creator
+                    const isOwner = currentUserId && String(ride.driver_id) === String(currentUserId);
+                    const deleteBtnHtml = isOwner ? `
+                        <button class="delete-ride-btn" onclick="event.stopPropagation(); deleteRide(${ride.id})" title="Delete this ride">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="3 6 5 6 21 6"></polyline>
+                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                <line x1="10" y1="11" x2="10" y2="17"></line>
+                                <line x1="14" y1="11" x2="14" y2="17"></line>
+                            </svg>
+                        </button>
+                    ` : '';
+
                     card.innerHTML = `
                         <div class="glass-overlay"></div>
+                        ${deleteBtnHtml}
                         <header class="post-header">
                             <div class="avatar-container">
                                 <div class="avatar">
@@ -106,6 +121,23 @@ document.addEventListener("DOMContentLoaded", () => {
             loadRides();
         } catch(e) {
             console.error(e);
+        }
+    };
+
+    window.deleteRide = async function(rideId) {
+        if (!confirm('Are you sure you want to delete this ride post?')) return;
+        try {
+            let res = await fetch(API_BASE + '/rides/' + rideId, {
+                method: 'DELETE',
+                headers: getHeaders()
+            });
+            let data = await res.json();
+            alert(data.message);
+            if (res.ok) {
+                loadRides();
+            }
+        } catch(e) {
+            console.error('Failed to delete ride:', e);
         }
     };
 

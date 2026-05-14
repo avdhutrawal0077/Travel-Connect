@@ -92,6 +92,24 @@ def book_ride(current_user):
     
     return jsonify({'message': 'Ride booked successfully'}), 200
 
+@rides_bp.route('/<int:ride_id>', methods=['DELETE'])
+@token_required
+def delete_ride(current_user, ride_id):
+    ride = RidePost.query.get(ride_id)
+    if not ride:
+        return jsonify({'message': 'Ride not found'}), 404
+
+    # Only the creator can delete their own ride
+    if ride.driver_id != current_user.id:
+        return jsonify({'message': 'You can only delete your own rides'}), 403
+
+    # Delete associated bookings first
+    Booking.query.filter_by(ride_id=ride.id).delete()
+    db.session.delete(ride)
+    db.session.commit()
+
+    return jsonify({'message': 'Ride deleted successfully'}), 200
+
 @rides_bp.route('/my-bookings', methods=['GET'])
 @token_required
 def get_my_bookings(current_user):
